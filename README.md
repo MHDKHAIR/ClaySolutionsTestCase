@@ -4,6 +4,7 @@ Locks access control sysem using .NET 5 API and MSSQLServer with clean architect
 --Simple documetion:
 This project built with N-Layer clear architecture with { API - Application - Domain - Infrastructure} wtih DDD design and almost SOLID principles along with Repository pattern.
 ![Arch](https://user-images.githubusercontent.com/58634897/146997101-03a8e076-aa02-486b-80b2-13a88dea2ffa.png)
+
 Live from VS 2019
 ![VS1](https://user-images.githubusercontent.com/58634897/146997124-4b125130-6c41-4117-8d48-a77c15977e5c.JPG)
   
