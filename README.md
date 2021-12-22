@@ -78,9 +78,16 @@ Modify appsettings.json inside API project and fill the empty fields
 Then select LockAPI project as startup and start the application userin Kestrel.
 
 It will start on this link: http://localhost:5022/
-
+</br>
+Admin user:</br>
+Email: clay@admin.com
+Password: SuperAdmin@2022
 
 ## API Reference
 Postman collection:
 https://github.com/MHDKHAIR/ClaySolutionsTestCase/blob/master/Clay%20LocksAPI.postman_collection.json
+
+## Demo
+Guest user flow:https://youtu.be/AyrqBvgugPY
+Employee user flow: https://youtu.be/tjcyTJlhDgo
 
