@@ -45,7 +45,11 @@ Modify appsettings.json inside API project and fill the empty fields
   },
 }
 
--Hnd writing flow
+Admin user:
+clay@admin.com
+SuperAdmin@2022
+
+-Hand writing flow
 ![flow](https://user-images.githubusercontent.com/58634897/146997352-acfa0bac-9622-485d-90eb-ec0b5c053251.jpg)
 
 -Demo links using postman
