@@ -1,0 +1,1589 @@
+{
+	"info": {
+		"_postman_id": "0c40421f-607d-453c-80f4-9b4cdcb312a4",
+		"name": "Clay LocksAPI",
+		"description": "Contact Support:\n Name: Mohammed Khair\n Email: mohammadfkl@outlook.com",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "Account",
+					"item": [
+						{
+							"name": "/api/Account/signing_in",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userEmail\": \"clay@admin.com\",\n    \"password\": \"SuperAdmin@2022\",\n    \"rememberMe\": true\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Account/signing_in",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Account",
+										"signing_in"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"userEmail\": \"ut consequat nostrud ea\",\n    \"password\": \"amet eiusmod non\",\n    \"rememberMe\": false\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Account/signing_in",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Account",
+												"signing_in"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"userEmail\": \"ut consequat nostrud ea\",\n    \"password\": \"amet eiusmod non\",\n    \"rememberMe\": false\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Account/signing_in",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Account",
+												"signing_in"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"userEmail\": \"ut consequat nostrud ea\",\n    \"password\": \"amet eiusmod non\",\n    \"rememberMe\": false\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Account/signing_in",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Account",
+												"signing_in"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Account/registration",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userEmail\": \"jojew61385@ritumusic.com\",\n    \"firstName\": \"guest\",\n    \"lastName\": \"guest\",\n    \"userType\": 0, \n    \"password\": \"Test2022\",\n    \"confirmPassword\": \"Test2022\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Account/registration",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Account",
+										"registration"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"userEmail\": \"dolore sit consectetur ullamco mollit\",\n    \"firstName\": \"anim ad\",\n    \"lastName\": \"in ad\",\n    \"userType\": 0,\n    \"password\": \"officia quis dolore sunt Excepteur\",\n    \"confirmPassword\": \"consequat incididunt elit\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Account/registration",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Account",
+												"registration"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"userEmail\": \"dolore sit consectetur ullamco mollit\",\n    \"firstName\": \"anim ad\",\n    \"lastName\": \"in ad\",\n    \"userType\": 0,\n    \"password\": \"officia quis dolore sunt Excepteur\",\n    \"confirmPassword\": \"consequat incididunt elit\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Account/registration",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Account",
+												"registration"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Account/confirmation",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/Account/confirmation?id=e009c43e-a23f-41ac-82a2-a5aed44d4e0f&confirmationtoken=CfDJ8FmSrAyazoZIvuQvS6DRNozAaCfNFbLGmbK5D2WyGTz%2fnZAYvKBYTHvmJw2s%2f4hBhC0VUXijTzm8cOtsF2AdgZ69VH6Q7uIBIBvuXkQ1eqQphOLM47rF7e798fzRNq%2bMvUQrrY5M2HQ1IeJ%2fNoDwxLUPrbvnONJhX8zUGTv2Lap1mRYRG%2b6wZgzpnT%2bui1YhV0DGD9g0S8f8mtcsvboVgJZbvg%2fVUGSZSrA%2bSIgItgQKxvf%2bMWr8RjiPWxLDkBPQdQ%3d%3d",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Account",
+										"confirmation"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "e009c43e-a23f-41ac-82a2-a5aed44d4e0f"
+										},
+										{
+											"key": "confirmationtoken",
+											"value": "CfDJ8FmSrAyazoZIvuQvS6DRNozAaCfNFbLGmbK5D2WyGTz%2fnZAYvKBYTHvmJw2s%2f4hBhC0VUXijTzm8cOtsF2AdgZ69VH6Q7uIBIBvuXkQ1eqQphOLM47rF7e798fzRNq%2bMvUQrrY5M2HQ1IeJ%2fNoDwxLUPrbvnONJhX8zUGTv2Lap1mRYRG%2b6wZgzpnT%2bui1YhV0DGD9g0S8f8mtcsvboVgJZbvg%2fVUGSZSrA%2bSIgItgQKxvf%2bMWr8RjiPWxLDkBPQdQ%3d%3d"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Account/confirmation?Id=dol&ConfirmationToken=dol",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Account",
+												"confirmation"
+											],
+											"query": [
+												{
+													"key": "Id",
+													"value": "dol"
+												},
+												{
+													"key": "ConfirmationToken",
+													"value": "dol"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Account/confirmation?Id=dol&ConfirmationToken=dol",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Account",
+												"confirmation"
+											],
+											"query": [
+												{
+													"key": "Id",
+													"value": "dol"
+												},
+												{
+													"key": "ConfirmationToken",
+													"value": "dol"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Account/confirmation?Id=dol&ConfirmationToken=dol",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Account",
+												"confirmation"
+											],
+											"query": [
+												{
+													"key": "Id",
+													"value": "dol"
+												},
+												{
+													"key": "ConfirmationToken",
+													"value": "dol"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Account/delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/Account/delete",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Account",
+										"delete"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Account/delete?UserId=dol",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Account",
+												"delete"
+											],
+											"query": [
+												{
+													"key": "UserId",
+													"value": "dol"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Account/delete?UserId=dol",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Account",
+												"delete"
+											],
+											"query": [
+												{
+													"key": "UserId",
+													"value": "dol"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Account/delete?UserId=dol",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Account",
+												"delete"
+											],
+											"query": [
+												{
+													"key": "UserId",
+													"value": "dol"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Admin",
+					"item": [
+						{
+							"name": "/api/Admin/account_activation",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/Admin/account_activation?UserId=f2e51b6b-8efd-41b7-8749-1d54ff06905d",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Admin",
+										"account_activation"
+									],
+									"query": [
+										{
+											"key": "UserId",
+											"value": "f2e51b6b-8efd-41b7-8749-1d54ff06905d"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Admin/account_activation?UserId=dol",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"account_activation"
+											],
+											"query": [
+												{
+													"key": "UserId",
+													"value": "dol"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Admin/account_activation?UserId=dol",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"account_activation"
+											],
+											"query": [
+												{
+													"key": "UserId",
+													"value": "dol"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Admin/account_activation?UserId=dol",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"account_activation"
+											],
+											"query": [
+												{
+													"key": "UserId",
+													"value": "dol"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Admin/grant_access",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/Admin/grant_access?ClaimId=a2f6f05f-ee7c-4fce-b878-332e1a4ae4f9",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Admin",
+										"grant_access"
+									],
+									"query": [
+										{
+											"key": "ClaimId",
+											"value": "a2f6f05f-ee7c-4fce-b878-332e1a4ae4f9"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Admin/grant_access?ClaimId=dol",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"grant_access"
+											],
+											"query": [
+												{
+													"key": "ClaimId",
+													"value": "dol"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Admin/grant_access?ClaimId=dol",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"grant_access"
+											],
+											"query": [
+												{
+													"key": "ClaimId",
+													"value": "dol"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Admin/grant_access?ClaimId=dol",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"grant_access"
+											],
+											"query": [
+												{
+													"key": "ClaimId",
+													"value": "dol"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Server Error",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Admin/grant_access?ClaimId=dol",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"grant_access"
+											],
+											"query": [
+												{
+													"key": "ClaimId",
+													"value": "dol"
+												}
+											]
+										}
+									},
+									"status": "Service Unavailable",
+									"code": 503,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								}
+							]
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRjYWRhOGEwLWM1MTAtNGRiNS1iYTM3LTE1YTY4ODQxNWJmMiIsInVzZXJ0eXBlIjoiQWRtaW4iLCJuYmYiOjE2NDAxMTg0NzksImV4cCI6MTY0MDEyMjA3OSwiaWF0IjoxNjQwMTE4NDc5fQ.fiYdUnPCz9xyhhSYErzTyBQsi9uFf6jkrxh_hkFJvwc",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Lock",
+					"item": [
+						{
+							"name": "/api/Lock/list",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"pageSize\": 10,\r\n  \"currentPage\": 1,\r\n  \"order\": 0,\r\n  \"search\": {\r\n    \"name\": \"\",\r\n    \"lastAccessed\": null\r\n  },\r\n  \"sort\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Lock/list",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Lock",
+										"list"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Lock/list",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Lock",
+												"list"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Lock/list",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Lock",
+												"list"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Lock/list",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Lock",
+												"list"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Lock/access_history",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Lock/access_history",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Lock",
+										"access_history"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Lock/access_history",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Lock",
+												"access_history"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Lock/access_history",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Lock",
+												"access_history"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Lock/access_history",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Lock",
+												"access_history"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								}
+							]
+						},
+						{
+							"name": "/api/Lock/lock_access",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"doorKeyCode\": \"0R39HU0C\",\n    \"location\": {\n        \"longitude\": 52.35660693512942,\n        \"latitude\": 4.8397535190171945\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/Lock/lock_access",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Lock",
+										"lock_access"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"doorKeyCode\": \"quis ea sint\",\n    \"location\": {\n        \"longitude\": -66893560.59741187,\n        \"latitude\": -68754074.086154\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Lock/lock_access",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Lock",
+												"lock_access"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"doorKeyCode\": \"quis ea sint\",\n    \"location\": {\n        \"longitude\": -66893560.59741187,\n        \"latitude\": -68754074.086154\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Lock/lock_access",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Lock",
+												"lock_access"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"doorKeyCode\": \"quis ea sint\",\n    \"location\": {\n        \"longitude\": -66893560.59741187,\n        \"latitude\": -68754074.086154\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Lock/lock_access",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Lock",
+												"lock_access"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"doorKeyCode\": \"quis ea sint\",\n    \"location\": {\n        \"longitude\": -66893560.59741187,\n        \"latitude\": -68754074.086154\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Lock/lock_access",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Lock",
+												"lock_access"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								},
+								{
+									"name": "Server Error",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"doorKeyCode\": \"quis ea sint\",\n    \"location\": {\n        \"longitude\": -66893560.59741187,\n        \"latitude\": -68754074.086154\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/Lock/lock_access",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Lock",
+												"lock_access"
+											]
+										}
+									},
+									"status": "Service Unavailable",
+									"code": 503,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"failed\": true,\n \"message\": \"in cupidatat anim\",\n \"succeeded\": false\n}"
+								}
+							]
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUwMDljNDNlLWEyM2YtNDFhYy04MmEyLWE1YWVkNDRkNGUwZiIsInVzZXJ0eXBlIjoiR3Vlc3QiLCJuYmYiOjE2NDAxMTgzMzgsImV4cCI6MTY0MDEyMTkzOCwiaWF0IjoxNjQwMTE4MzM4fQ.PQRjWBGtTByr0-4xpa_Yv-amul5-fn67gnCENpN4MbI",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:5022"
+		}
+	]
+}
