@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Application.Common.Interfaces;
+using Application.Common.Interfaces.Persistence;
 using Application.DataTransfareObjects.Responses;
-using Application.Services.Contracts;
+using Application.Services.Interfaces;
 using AutoMapper;
 using Domain.Common.Results;
 using Domain.Common.Search;
 using Domain.Entities;
 using Domain.Enums;
-using Domain.Interfaces.Contexts;
-using Domain.Interfaces.Services;
 using EntityFrameworkPaginateCore;
 
 namespace Application.Services
@@ -20,12 +17,12 @@ namespace Application.Services
     public class UserLockClaimService : IUserLockClaimService
     {
         readonly ICurrentUserService _currentUserService;
-        readonly IRepository<UserLockClaimEntity> _mainRepo;
-        readonly IRepository<LockAccessHistoryEntity> _accessHistoryRepo;
+        readonly IReadRepository<UserLockClaimEntity> _mainRepo;
+        readonly IReadRepository<LockAccessHistoryEntity> _accessHistoryRepo;
         readonly IMapper _mapper;
 
         public UserLockClaimService(ICurrentUserService currentUserService,
-            IRepository<UserLockClaimEntity> mainRepo, IRepository<LockAccessHistoryEntity> accessHistoryRepo, IMapper mapper)
+            IReadRepository<UserLockClaimEntity> mainRepo, IReadRepository<LockAccessHistoryEntity> accessHistoryRepo, IMapper mapper)
         {
             _currentUserService = currentUserService;
             _mainRepo = mainRepo;

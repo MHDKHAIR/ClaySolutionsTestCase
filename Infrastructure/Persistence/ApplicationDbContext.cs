@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Application.Common.Interfaces;
+using Application.Common.Interfaces.Persistence;
 using Domain.Entities;
 using Domain.Interfaces;
-using Domain.Interfaces.Contexts;
-using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

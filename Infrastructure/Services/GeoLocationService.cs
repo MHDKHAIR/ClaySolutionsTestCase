@@ -1,7 +1,7 @@
 ﻿using System;
-using Domain.Interfaces.Services;
+using Application.Common.Interfaces;
 
-namespace Application.Services
+namespace Infrastructure.Services
 {
     public class GeoLocationService : IGeoLocationService
     {

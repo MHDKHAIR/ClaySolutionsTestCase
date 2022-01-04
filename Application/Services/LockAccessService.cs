@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Application.DataTransfareObjects.Requests;
-using Application.Services.Contracts;
 using Application.Validators;
 using Application.Extentions;
 using Domain.Entities;
-using Domain.Interfaces.Contexts;
-using Domain.Interfaces.Services;
 using Domain.Enums;
 using Domain.Common;
 using Microsoft.Extensions.Configuration;
+using Application.Services.Interfaces;
+using Application.Common.Interfaces;
+using Application.Common.Interfaces.Persistence;
 
 namespace Application.Services
 {
@@ -24,9 +22,11 @@ namespace Application.Services
         private readonly IEmailService emailService;
         private readonly IUserService userService;
         private readonly IDateTimeService dateTimeService;
-        private readonly IRepository<DoorLockEntity> lockRepo;
-        private readonly IRepository<LockAccessHistoryEntity> accessHistoryRepo;
-        private readonly IRepository<UserLockClaimEntity> userLockClaimRepo;
+        private readonly IReadRepository<DoorLockEntity> lockRepo;
+        private readonly IReadRepository<LockAccessHistoryEntity> accessHistoryReadRepo;
+        private readonly IWriteRepository<LockAccessHistoryEntity> accessHistoryWriteRepo;
+        private readonly IReadRepository<UserLockClaimEntity> userLockClaimReadRepo;
+        private readonly IWriteRepository<UserLockClaimEntity> userLockClaimWriteRepo;
         private readonly IConfiguration configuration;
 
         public LockAccessService(
@@ -36,9 +36,11 @@ namespace Application.Services
             IEmailService emailService,
             IUserService userService,
             IDateTimeService dateTimeService,
-            IRepository<DoorLockEntity> lockRepo,
-            IRepository<LockAccessHistoryEntity> accessHistoryRepo,
-            IRepository<UserLockClaimEntity> userLockClaimRepo,
+            IReadRepository<DoorLockEntity> lockRepo,
+            IReadRepository<LockAccessHistoryEntity> accessHistoryReadRepo,
+            IWriteRepository<LockAccessHistoryEntity> accessHistoryWriteRepo,
+            IReadRepository<UserLockClaimEntity> userLockClaimReadRepo,
+            IWriteRepository<UserLockClaimEntity> userLockClaimWriteRepo,
             IConfiguration configuration)
         {
             this.currentUserService = currentUserService;
@@ -48,8 +50,10 @@ namespace Application.Services
             this.userService = userService;
             this.dateTimeService = dateTimeService;
             this.lockRepo = lockRepo;
-            this.accessHistoryRepo = accessHistoryRepo;
-            this.userLockClaimRepo = userLockClaimRepo;
+            this.accessHistoryReadRepo = accessHistoryReadRepo;
+            this.accessHistoryWriteRepo = accessHistoryWriteRepo;
+            this.userLockClaimReadRepo = userLockClaimReadRepo;
+            this.userLockClaimWriteRepo = userLockClaimWriteRepo;
             this.configuration = configuration;
         }
 
@@ -71,10 +75,10 @@ namespace Application.Services
                 throw new ApplicationException("Too far to access the lock, the distance should be 10 or less meters");
 
             //check claim
-            var lastLockClaim = await userLockClaimRepo.FirstByConditionAsync(x => x.LockId == thisLock.Id && x.UserId == currentUserService.UserId, AsNoTracking: false);
+            var lastLockClaim = await userLockClaimReadRepo.FirstByConditionAsync(x => x.LockId == thisLock.Id && x.UserId == currentUserService.UserId, AsNoTracking: false);
             if (lastLockClaim is null)
             {
-                lastLockClaim = await userLockClaimRepo.InsertAsync(new UserLockClaimEntity
+                lastLockClaim = await userLockClaimWriteRepo.InsertAsync(new UserLockClaimEntity
                 {
                     Id = Guid.NewGuid().ToString(),
                     ClaimType = currentUserService.UserType == UserTypeEnum.Guest ? ClaimTypeEnum.Once : ClaimTypeEnum.Always,
@@ -94,7 +98,7 @@ namespace Application.Services
             var thisUser = await userService.GetByIdAsync(currentUserService.UserId);
             NotifyAdminToGrantAccess(thisUser.Email, lastLockClaim.Id, needConirm);
 
-            await accessHistoryRepo.InsertAsync(new LockAccessHistoryEntity
+            await accessHistoryWriteRepo.InsertAsync(new LockAccessHistoryEntity
             {
                 AccessStatus = needConirm ? LockAccessStatusEnum.AccessDenied : LockAccessStatusEnum.AccessGranted,
                 DoorLockId = thisLock.Id,
@@ -103,8 +107,8 @@ namespace Application.Services
             });
 
             // save to db
-            await userLockClaimRepo.SaveChangesAsync();
-            await accessHistoryRepo.SaveChangesAsync();
+            await userLockClaimWriteRepo.SaveChangesAsync();
+            await accessHistoryWriteRepo.SaveChangesAsync();
 
             if (needConirm)
                 throw new UnauthorizedAccessException("Please wait access will be granted on admin confirmation");
@@ -120,7 +124,7 @@ namespace Application.Services
                 throw new ApplicationException("ClaimId is required");
 
             //check claim
-            var lockClaim = await userLockClaimRepo.GetAsync(claimId, false);
+            var lockClaim = await userLockClaimReadRepo.GetAsync(claimId, false);
             if (lockClaim is null)
                 throw new KeyNotFoundException("ClaimId is not valid");
 
@@ -136,14 +140,14 @@ namespace Application.Services
             lockClaim.AccessUntil = user.UserType == UserTypeEnum.Guest ?
                 dateTimeService.Now.AddHours(1) : dateTimeService.Now.AddYears(1);
 
-            await userLockClaimRepo.SaveChangesAsync();
+            await userLockClaimWriteRepo.SaveChangesAsync();
 
             // update history
-            var history = await accessHistoryRepo.FirstByConditionAsync(x => x.UserId == lockClaim.UserId && x.DoorLockId == lockClaim.LockId, AsNoTracking: false);
+            var history = await accessHistoryReadRepo.FirstByConditionAsync(x => x.UserId == lockClaim.UserId && x.DoorLockId == lockClaim.LockId, AsNoTracking: false);
             if (history is not null)
             {
                 history.AccessStatus = LockAccessStatusEnum.AccessGranted;
-                await accessHistoryRepo.SaveChangesAsync();
+                await accessHistoryWriteRepo.SaveChangesAsync();
             }
             // open the door
             await lockControlService.OpenLock(doorLock.DoorKeyCode);

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{CC28B204-D788-4B1E-B351-BF24D4677945}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{CC28B204-D788-4B1E-B351-BF24D4677945}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{99198C6A-F834-4867-80C8-B3AB71B19F98}"
 EndProject
@@ -19,7 +19,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{31EB5108-4D2C-4EA4-983F-9123A48D9B38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.UnitTest", "Application.UnitTest\Application.UnitTest.csproj", "{608A28FE-5E16-4BDD-8CFF-1ECA311E1A4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.UnitTest", "Application.UnitTest\Application.UnitTest.csproj", "{608A28FE-5E16-4BDD-8CFF-1ECA311E1A4B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{E24CB112-47CB-4683-B3A0-33D74D46B5C7}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Desktop\Clay Test Screens\Clay LocksAPI.postman_collection.json = ..\..\..\Desktop\Clay Test Screens\Clay LocksAPI.postman_collection.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +64,7 @@ Global
 		{1FDE6256-5DFA-49D7-A393-281A4AB9CC48} = {99198C6A-F834-4867-80C8-B3AB71B19F98}
 		{31EB5108-4D2C-4EA4-983F-9123A48D9B38} = {99198C6A-F834-4867-80C8-B3AB71B19F98}
 		{608A28FE-5E16-4BDD-8CFF-1ECA311E1A4B} = {E545C119-C011-44C0-8FED-23C9C08F5C85}
+		{E24CB112-47CB-4683-B3A0-33D74D46B5C7} = {E2836728-F533-423F-94DD-ED5AB006F9AA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {071B78C8-4833-4CFD-8AF1-B27756F42969}

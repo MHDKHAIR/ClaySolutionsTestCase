@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Application.Services.Contracts;
+﻿using System.Threading.Tasks;
+using Application.Common.Interfaces;
+using Application.Services.Interfaces;
 using Domain.Common.Results;
-using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

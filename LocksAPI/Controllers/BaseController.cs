@@ -1,6 +1,4 @@
-﻿using Domain.Interfaces.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+﻿using Application.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LocksAPI.Controllers

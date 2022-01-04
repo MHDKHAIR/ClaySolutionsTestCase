@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Linq;
-using Domain.Interfaces.Services;
+using Application.Common.Interfaces;
 
-namespace Application.Services
+namespace Infrastructure.Services
 {
     public class RandomService : IRandomService
     {
-        private string chars;
+        private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         private Random random;
 
         public RandomService()
         {
-            chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             random = new Random();
         }
         public string RandomAlphanumericString(int length)

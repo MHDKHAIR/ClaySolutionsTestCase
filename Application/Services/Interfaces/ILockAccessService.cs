@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Application.DataTransfareObjects.Requests;
 
-namespace Application.Services.Contracts
+namespace Application.Services.Interfaces
 {
     public interface ILockAccessService
     {

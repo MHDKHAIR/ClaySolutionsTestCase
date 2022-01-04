@@ -12,6 +12,8 @@ using Application.Handlers;
 using Domain.Entities;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
+using Application.Common.Interfaces;
+using Infrastructure.Services;
 
 namespace LocksAPI
 {
@@ -27,8 +29,7 @@ namespace LocksAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services
-                .AddInfrastructure(Configuration);
+            services.AddInfrastructure(Configuration);
 
             services.AddIdentityCore<UserEntity>(x => x.SignIn.RequireConfirmedEmail = true)
                     .AddUserManager<UserManager<UserEntity>>()

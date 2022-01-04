@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Common.Results;
 using Application.DataTransfareObjects.Requests;
-using Application.Services.Contracts;
 using System.Threading.Tasks;
 using Application.DataTransfareObjects.Responses;
+using Application.Services.Interfaces;
 
 namespace LocksAPI.Controllers
 {

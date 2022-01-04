@@ -1,20 +1,20 @@
 ﻿using System;
+using System.Linq;
+using System.Web;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Application.DataTransfareObjects.Requests;
 using Application.DataTransfareObjects.Responses;
-using Application.Services.Contracts;
 using Application.Utils;
 using Application.Validators;
 using Application.Extentions;
 using Domain.Common;
 using Domain.Entities;
 using Domain.Enums;
-using Domain.Interfaces.Services;
-using System.Linq;
-using System.Web;
+using Application.Services.Interfaces;
+using Application.Common.Interfaces;
 
 namespace Application.Services
 {

@@ -1,9 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 
-namespace Domain.Interfaces.Contexts
+
+namespace Application.Common.Interfaces.Persistence
 {
     public interface IApplicationDbContext
     {

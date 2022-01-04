@@ -6,7 +6,7 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 using Domain.Common;
-using Domain.Interfaces.Services;
+using Application.Common.Interfaces;
 
 namespace Infrastructure.Services
 {

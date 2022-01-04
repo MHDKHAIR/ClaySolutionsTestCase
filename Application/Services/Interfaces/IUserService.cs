@@ -3,7 +3,7 @@ using Application.DataTransfareObjects.Requests;
 using Application.DataTransfareObjects.Responses;
 using Domain.Entities;
 
-namespace Application.Services.Contracts
+namespace Application.Services.Interfaces
 {
     public interface IUserService
     {

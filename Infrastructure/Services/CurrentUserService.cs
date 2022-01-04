@@ -1,5 +1,5 @@
-﻿using Domain.Enums;
-using Domain.Interfaces.Services;
+﻿using Application.Common.Interfaces;
+using Domain.Enums;
 
 namespace Infrastructure.Services
 {

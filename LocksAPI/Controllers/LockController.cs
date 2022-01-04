@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
+using Application.Common.Interfaces;
 using Application.DataTransfareObjects.Requests;
 using Application.DataTransfareObjects.Responses;
-using Application.Services.Contracts;
+using Application.Services.Interfaces;
 using Domain.Common.Results;
 using Domain.Common.Search;
 using Domain.Enums;
-using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

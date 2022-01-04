@@ -1,6 +1,6 @@
 ﻿using Domain.Enums;
 
-namespace Domain.Interfaces.Services
+namespace Application.Common.Interfaces
 {
     public interface ICurrentUserService
     {

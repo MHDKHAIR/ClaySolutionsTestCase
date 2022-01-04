@@ -3,9 +3,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Persistence;
 using Infrastructure.Services;
-using Domain.Interfaces.Services;
-using Domain.Interfaces.Contexts;
-using Infrastructure.Persistence.Configuration;
+using Application.Common.Interfaces;
+using Application.Common.Interfaces.Persistence;
+using Infrastructure.Persistence.Repositories;
 
 namespace Infrastructure
 {
@@ -13,6 +13,7 @@ namespace Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
+            //DB
             if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
                 services.AddDbContext<ApplicationDbContext>(options =>
@@ -30,12 +31,17 @@ namespace Infrastructure
                         }));
             }
 
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            //Scoped
+            services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
+            services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<ILockControlService, LockControlService>();
 
+            //Transient
+            services.AddTransient<IGeoLocationService, GeoLocationService>();
             services.AddTransient<IDateTimeService, DateTimeService>();
+            services.AddTransient<IRandomService, RandomService>();
 
             return services;
         }

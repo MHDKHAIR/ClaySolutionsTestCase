@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Domain.Entities;
@@ -33,6 +35,40 @@ namespace Application.Utils
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        public JwtSecurityToken ValidateJwtToken(string token)
+        {
+            if (token == null)
+                throw new KeyNotFoundException("No token found");
+
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+
+                var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("JwtSecret"));
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
+                    ClockSkew = TimeSpan.Zero
+                }, out SecurityToken validatedToken);
+
+                return (JwtSecurityToken)validatedToken;
+            }
+            catch (KeyNotFoundException)
+            {
+                throw;
+            }
+            catch
+            {
+                throw new UnauthorizedAccessException();
+                // do nothing if jwt validation fails
+                // user is not attached to context so request won't have access to secure routes
+            }
         }
     }
 }
