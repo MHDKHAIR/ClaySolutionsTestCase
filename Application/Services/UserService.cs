@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Web;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -78,9 +77,6 @@ namespace Application.Services
             // authentication successful so generate jwt and refresh tokens
             var jwtToken = _jwtUtils.GenerateJwtToken(user);
 
-            // save changes to db
-            //await _signInManager.SignInAsync(user, dto.RememberMe);
-
             var canSignIn = await _signInManager.CanSignInAsync(user);
 
             return new SignInResponseDto
@@ -126,7 +122,8 @@ namespace Application.Services
                 CreatedBy = "System"
             };
             // save changes to db
-            ResolveIdentityResult(await _userManager.CreateAsync(newUser));
+            (await _userManager.CreateAsync(newUser))
+                .ResolveIdentityErrorResult();
 
             //email user
             var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
@@ -156,7 +153,8 @@ namespace Application.Services
                 throw new ApplicationException("Only Employee allowed to be activated");
 
             user.RecordStatus = RecordStatusEnum.Active;
-            ResolveIdentityResult(await _userManager.UpdateAsync(user));
+            (await _userManager.UpdateAsync(user))
+                .ResolveIdentityErrorResult();
         }
         public async Task EmailConfirmationAsync(string userId, string token)
         {
@@ -165,7 +163,8 @@ namespace Application.Services
                 throw new ApplicationException("User not found");
             if (await _userManager.IsEmailConfirmedAsync(user))
                 throw new ApplicationException("Email is confirmed already");
-            ResolveIdentityResult(await _userManager.ConfirmEmailAsync(user, token));
+            (await _userManager.ConfirmEmailAsync(user, token))
+                .ResolveIdentityErrorResult();
         }
         public async Task DeleteAccountAsync(string userId)
         {
@@ -179,7 +178,8 @@ namespace Application.Services
                 throw new ApplicationException("User not found");
 
             user.RecordStatus = RecordStatusEnum.Deleted;
-            ResolveIdentityResult(await _userManager.UpdateAsync(user));
+            (await _userManager.UpdateAsync(user))
+                .ResolveIdentityErrorResult();
         }
 
         // private
@@ -205,15 +205,6 @@ namespace Application.Services
                 ToEmail = _configuration.GetValue<string>("AdminEmail"),
                 Body = $"Employee email: {user.Email}</br>Confirm user account link:</br>{cofirmationLink}"
             });
-        }
-        void ResolveIdentityResult(IdentityResult result)
-        {
-            if (!result.Succeeded)
-            {
-                var errors = string.Empty;
-                result.Errors.ToList().ForEach(e => errors += e.Description + Environment.NewLine);
-                throw new ApplicationException(errors);
-            }
         }
     }
 }

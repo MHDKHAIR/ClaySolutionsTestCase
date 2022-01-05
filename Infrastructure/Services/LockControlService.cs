@@ -34,5 +34,7 @@ namespace Infrastructure.Services
               });
             return await Task.FromResult(true);
         }
+
+        public async Task<double> GetLockValidDistance(string key) => await Task.FromResult<double>(10);
     }
 }

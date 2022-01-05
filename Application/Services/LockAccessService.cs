@@ -70,7 +70,7 @@ namespace Application.Services
                        thisLock.Longitude, requestDto.Location.Longitude);
 
             //check distance
-            if (userFromLockDistance > 10) // if 10 or less meters way from lock the user can open
+            if (userFromLockDistance > (await lockControlService.GetLockValidDistance(thisLock.DoorKeyCode)))
                 throw new ApplicationException("Too far to access the lock, the distance should be 10 or less meters");
 
             //check claim
@@ -94,6 +94,8 @@ namespace Application.Services
             {
                 if (currentUserService.UserType == UserTypeEnum.Guest)
                     needConfirm = true;
+                else
+                    lastLockClaim.AccessUntil = dateTimeService.Now.AddYears(1);
             }
             // notify admin with user access
             var thisUser = await userService.GetByIdAsync(currentUserService.UserId);
@@ -103,7 +105,7 @@ namespace Application.Services
             {
                 AccessStatus = needConfirm ? LockAccessStatusEnum.AccessDenied : LockAccessStatusEnum.AccessGranted,
                 DoorLockId = thisLock.Id,
-                Reason = "Accessing lock",
+                Reason = "Requrested lock access",
                 UserId = thisUser.Id,
             });
 

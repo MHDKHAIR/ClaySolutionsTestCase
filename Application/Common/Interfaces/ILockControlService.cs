@@ -17,5 +17,12 @@ namespace Application.Common.Interfaces
         /// <param name="key">8 characters key</param>
         /// <returns></returns>
         Task<bool> CloseLock(string key);
+
+        /// <summary>
+        /// Get the lock valid distance from the controller
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        Task<double> GetLockValidDistance(string key);
     }
 }
