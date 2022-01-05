@@ -15,13 +15,15 @@ namespace LocksAPI.Controllers
     {
         readonly IUserLockClaimService _userLockClaimService;
         readonly ILockAccessService _lockAccessService;
+        readonly ILockAccessHistoryService _lockAccessHistoryService;
 
         public LockController(ICurrentUserService currentUser,
             IUserLockClaimService userLockClaimService,
-            ILockAccessService lockAccessService) : base(currentUser)
+            ILockAccessService lockAccessService, ILockAccessHistoryService lockAccessHistoryService) : base(currentUser)
         {
             _userLockClaimService = userLockClaimService;
             _lockAccessService = lockAccessService;
+            _lockAccessHistoryService = lockAccessHistoryService;
         }
 
         [HttpGet("list")]
@@ -41,7 +43,7 @@ namespace LocksAPI.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(IResult))]
         public async Task<IActionResult> HistoryList(BaseSearchQuery<UserAccessLocksHistorySearch, GeneralSortEnum> query)
         {
-            var result = await _userLockClaimService.UserDookLockHistoryListAsync(query);
+            var result = await _lockAccessHistoryService.UserDookLockHistoryListAsync(query);
             return Ok(Result<DataList<UserAccessHistortLocksResponseDto>>.Success(result));
         }
 

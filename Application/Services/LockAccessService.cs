@@ -66,7 +66,7 @@ namespace Application.Services
             valdationResult.Resolve();
 
             //check lock
-            var thisLock = await CheckLockAsync(requestDto.DoorKeyCode);
+            var thisLock = await CheckLockByCodeAsync(requestDto.DoorKeyCode);
             var userFromLockDistance = locationService.CalculateDistance(thisLock.Latitude, requestDto.Location.Latitude,
                        thisLock.Longitude, requestDto.Location.Longitude);
 
@@ -116,7 +116,6 @@ namespace Application.Services
             await lockControlService.OpenLock(thisLock.DoorKeyCode);
         }
 
-
         public async Task GrantAccessOnLock(string claimId)
         {
             //validation
@@ -130,10 +129,9 @@ namespace Application.Services
 
             if (lockClaim.AccessUntil > dateTimeService.Now)
                 throw new ApplicationException("Access already granded");
+
             //check lock
-            var doorLock = await lockRepo.GetAsync(lockClaim.LockId);
-            if (doorLock is null)
-                throw new KeyNotFoundException("Lock does not exist");
+            var doorLock = await CheckLockByIdAsync(lockClaim.LockId);
 
             //update claim
             var user = await userService.GetByIdAsync(lockClaim.UserId);
@@ -154,15 +152,25 @@ namespace Application.Services
         }
 
         #region Private
-        async Task<DoorLockEntity> CheckLockAsync(string doorKeyCode)
+        async Task<DoorLockEntity> CheckLockByCodeAsync(string code)
         {
-            var thisLock = await lockRepo.FirstByConditionAsync(l => l.DoorKeyCode.Equals(doorKeyCode) && l.RecordStatus != RecordStatusEnum.Deleted);
+            var thisLock = await lockRepo.FirstByConditionAsync(l => l.DoorKeyCode.Equals(code) && l.RecordStatus != RecordStatusEnum.Deleted);
             if (thisLock is null)
-                throw new KeyNotFoundException("DoorKeyCode is not exist");
+                throw new KeyNotFoundException("DoorKeyCode does not exist");
             if (thisLock.RecordStatus == RecordStatusEnum.InActive)
-                throw new ApplicationException("DoorKeyCode is not active");
+                throw new ApplicationException("DoorKeyCode does not active");
             return thisLock;
         }
+        async Task<DoorLockEntity> CheckLockByIdAsync(Guid id)
+        {
+            var thisLock = await lockRepo.FirstByConditionAsync(l => l.Id == id && l.RecordStatus != RecordStatusEnum.Deleted);
+            if (thisLock is null)
+                throw new KeyNotFoundException("Lock does not exist");
+            if (thisLock.RecordStatus == RecordStatusEnum.InActive)
+                throw new ApplicationException("Lock does not active");
+            return thisLock;
+        }
+
         // for demo purpose
         void NotifyAdminToGrantAccess(string userEmail, string claimId, bool needConfirm = true)
         {

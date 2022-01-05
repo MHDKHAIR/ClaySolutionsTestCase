@@ -22,14 +22,14 @@ namespace Application.Services
     {
         readonly UserManager<UserEntity> _userManager;
         readonly SignInManager<UserEntity> _signInManager;
-        readonly JwtUtils _jwtUtils;
+        readonly IJwtUtils _jwtUtils;
         readonly ICurrentUserService _currentUserService;
         readonly IDateTimeService _dateTimeService;
         readonly IEmailService _emailService;
         readonly IConfiguration _configuration;
 
         public UserService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager,
-            JwtUtils jwtUtils, ICurrentUserService currentUserService,
+            IJwtUtils jwtUtils, ICurrentUserService currentUserService,
             IDateTimeService dateTimeService, IEmailService emailService, IConfiguration configuration)
         {
             _userManager = userManager;

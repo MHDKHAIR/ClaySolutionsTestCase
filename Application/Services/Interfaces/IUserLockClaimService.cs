@@ -9,6 +9,5 @@ namespace Application.Services.Interfaces
     public interface IUserLockClaimService
     {
         Task<DataList<UserLocksResponseDto>> UserDookLockListAsync(BaseSearchQuery<UserDoorLocksSearch, GeneralSortEnum> query);
-        Task<DataList<UserAccessHistortLocksResponseDto>> UserDookLockHistoryListAsync(BaseSearchQuery<UserAccessLocksHistorySearch, GeneralSortEnum> query);
     }
 }

@@ -13,9 +13,10 @@ namespace Application
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.AddScoped<JwtUtils>();
+            services.AddScoped<IJwtUtils, JwtUtils>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserLockClaimService, UserLockClaimService>();
+            services.AddScoped<ILockAccessHistoryService, LockAccessHistoryService>();
             services.AddScoped<ILockAccessService, LockAccessService>();
 
             return services;

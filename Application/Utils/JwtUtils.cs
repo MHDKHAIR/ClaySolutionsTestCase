@@ -11,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Utils
 {
-    public class JwtUtils
+    public class JwtUtils : IJwtUtils
     {
         private readonly IConfiguration _configuration;
 
