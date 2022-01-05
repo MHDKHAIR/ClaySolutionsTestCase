@@ -59,7 +59,6 @@ namespace Application.Services
 
         public async Task AccessLock(AccessLockRequestDto requestDto)
         {
-            var needConirm = false;
             //validation
             var validator = new LockAccessrRequestValidator();
             var valdationResult = validator.Validate(requestDto);
@@ -75,6 +74,8 @@ namespace Application.Services
                 throw new ApplicationException("Too far to access the lock, the distance should be 10 or less meters");
 
             //check claim
+            var needConfirm = false;
+
             var lastLockClaim = await userLockClaimReadRepo.FirstByConditionAsync(x => x.LockId == thisLock.Id && x.UserId == currentUserService.UserId, AsNoTracking: false);
             if (lastLockClaim is null)
             {
@@ -87,20 +88,20 @@ namespace Application.Services
                     AccessUntil = currentUserService.UserType == UserTypeEnum.Guest ? dateTimeService.Now.AddSeconds(-1) : dateTimeService.Now.AddYears(1)
                 });
                 if (currentUserService.UserType == UserTypeEnum.Guest)
-                    needConirm = true;
+                    needConfirm = true;
             }
             else if (lastLockClaim.AccessUntil < dateTimeService.Now)
             {
                 if (currentUserService.UserType == UserTypeEnum.Guest)
-                    needConirm = true;
+                    needConfirm = true;
             }
             // notify admin with user access
             var thisUser = await userService.GetByIdAsync(currentUserService.UserId);
-            NotifyAdminToGrantAccess(thisUser.Email, lastLockClaim.Id, needConirm);
+            NotifyAdminToGrantAccess(thisUser.Email, lastLockClaim.Id, needConfirm);
 
             await accessHistoryWriteRepo.InsertAsync(new LockAccessHistoryEntity
             {
-                AccessStatus = needConirm ? LockAccessStatusEnum.AccessDenied : LockAccessStatusEnum.AccessGranted,
+                AccessStatus = needConfirm ? LockAccessStatusEnum.AccessDenied : LockAccessStatusEnum.AccessGranted,
                 DoorLockId = thisLock.Id,
                 Reason = "Accessing lock",
                 UserId = thisUser.Id,
@@ -110,7 +111,7 @@ namespace Application.Services
             await userLockClaimWriteRepo.SaveChangesAsync();
             await accessHistoryWriteRepo.SaveChangesAsync();
 
-            if (needConirm)
+            if (needConfirm)
                 throw new UnauthorizedAccessException("Please wait access will be granted on admin confirmation");
             //IOT service call simulation to open the door
             await lockControlService.OpenLock(thisLock.DoorKeyCode);

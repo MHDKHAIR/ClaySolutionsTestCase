@@ -26,9 +26,12 @@ namespace Infrastructure.Services
         public async Task<bool> OpenLock(string key, int timeOutToClose = 10)
         {
             logger.LogInformation($"Door opend with key:{key} ; At {dateTimeService.Now}");
-            await Task.Delay(timeOutToClose * 1000);
-            dateTimeService.Now.AddSeconds(timeOutToClose);
-            await CloseLock(key);
+            _ = Task.Run(async () =>
+              {
+                  await Task.Delay(timeOutToClose * 1000);
+                  dateTimeService.Now.AddSeconds(timeOutToClose);
+                  await CloseLock(key);
+              });
             return await Task.FromResult(true);
         }
     }

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
 using Domain.Enums;
 using Application.Utils;
 using Application.Common.Interfaces;
@@ -20,7 +19,7 @@ namespace Application.Handlers
             _next = next;
         }
 
-        public async Task Invoke(HttpContext context, JwtUtils jwtUtils,
+        public async Task Invoke(HttpContext context, IJwtUtils jwtUtils,
             ILogger<JWTMiddleware> logger,
             ICurrentUserService currentUser)
         {
