@@ -30,19 +30,17 @@ namespace Infrastructure
                             b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
                         }));
             }
-
             //Scoped
             services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
             services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
-            services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<ILockControlService, LockControlService>();
-
             //Transient
             services.AddTransient<IGeoLocationService, GeoLocationService>();
             services.AddTransient<IDateTimeService, DateTimeService>();
             services.AddTransient<IRandomService, RandomService>();
-
             return services;
         }
     }

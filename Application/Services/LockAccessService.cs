@@ -16,18 +16,19 @@ namespace Application.Services
 {
     public class LockAccessService : ILockAccessService
     {
-        private readonly ICurrentUserService currentUserService;
-        private readonly IGeoLocationService locationService;
-        private readonly ILockControlService lockControlService;
-        private readonly IEmailService emailService;
-        private readonly IUserService userService;
-        private readonly IDateTimeService dateTimeService;
-        private readonly IReadRepository<DoorLockEntity> lockRepo;
-        private readonly IReadRepository<LockAccessHistoryEntity> accessHistoryReadRepo;
-        private readonly IWriteRepository<LockAccessHistoryEntity> accessHistoryWriteRepo;
-        private readonly IReadRepository<UserLockClaimEntity> userLockClaimReadRepo;
-        private readonly IWriteRepository<UserLockClaimEntity> userLockClaimWriteRepo;
-        private readonly IConfiguration configuration;
+        readonly ICurrentUserService _currentUserService;
+        readonly IGeoLocationService _locationService;
+        readonly ILockControlService _lockControlService;
+        readonly IEmailService _emailService;
+        readonly IUserService _userService;
+        readonly IDateTimeService _dateTimeService;
+        readonly IReadRepository<DoorLockEntity> _lockRepo;
+        readonly IReadRepository<LockAccessHistoryEntity> _accessHistoryReadRepo;
+        readonly IWriteRepository<LockAccessHistoryEntity> _accessHistoryWriteRepo;
+        readonly IReadRepository<UserLockClaimEntity> _userLockClaimReadRepo;
+        readonly IWriteRepository<UserLockClaimEntity> _userLockClaimWriteRepo;
+        readonly INotificationService _notificationService;
+        readonly IConfiguration _configuration;
 
         public LockAccessService(
             ICurrentUserService currentUserService,
@@ -41,20 +42,21 @@ namespace Application.Services
             IWriteRepository<LockAccessHistoryEntity> accessHistoryWriteRepo,
             IReadRepository<UserLockClaimEntity> userLockClaimReadRepo,
             IWriteRepository<UserLockClaimEntity> userLockClaimWriteRepo,
-            IConfiguration configuration)
+            INotificationService notificationService, IConfiguration configuration)
         {
-            this.currentUserService = currentUserService;
-            this.locationService = locationService;
-            this.lockControlService = lockControlService;
-            this.emailService = emailService;
-            this.userService = userService;
-            this.dateTimeService = dateTimeService;
-            this.lockRepo = lockRepo;
-            this.accessHistoryReadRepo = accessHistoryReadRepo;
-            this.accessHistoryWriteRepo = accessHistoryWriteRepo;
-            this.userLockClaimReadRepo = userLockClaimReadRepo;
-            this.userLockClaimWriteRepo = userLockClaimWriteRepo;
-            this.configuration = configuration;
+            _currentUserService = currentUserService;
+            _locationService = locationService;
+            _lockControlService = lockControlService;
+            _emailService = emailService;
+            _userService = userService;
+            _dateTimeService = dateTimeService;
+            _lockRepo = lockRepo;
+            _accessHistoryReadRepo = accessHistoryReadRepo;
+            _accessHistoryWriteRepo = accessHistoryWriteRepo;
+            _userLockClaimReadRepo = userLockClaimReadRepo;
+            _userLockClaimWriteRepo = userLockClaimWriteRepo;
+            _notificationService = notificationService;
+            _configuration = configuration;
         }
 
         public async Task AccessLock(AccessLockRequestDto requestDto)
@@ -66,57 +68,55 @@ namespace Application.Services
 
             //check lock
             var thisLock = await CheckLockByCodeAsync(requestDto.DoorKeyCode);
-            var userFromLockDistance = locationService.CalculateDistance(thisLock.Latitude, requestDto.Location.Latitude,
+            var userFromLockDistance = _locationService.CalculateDistance(thisLock.Latitude, requestDto.Location.Latitude,
                        thisLock.Longitude, requestDto.Location.Longitude);
 
             //check distance
-            if (userFromLockDistance > (await lockControlService.GetLockValidDistance(thisLock.DoorKeyCode)))
+            if (userFromLockDistance > (await _lockControlService.GetLockValidDistance(thisLock.DoorKeyCode)))
                 throw new ApplicationException("Too far to access the lock, the distance should be 10 or less meters");
 
             //check claim
             var needConfirm = false;
 
-            var lastLockClaim = await userLockClaimReadRepo.FirstByConditionAsync(x => x.LockId == thisLock.Id && x.UserId == currentUserService.UserId, AsNoTracking: false);
+            var lastLockClaim = await _userLockClaimReadRepo.FirstByConditionAsync(x => x.LockId == thisLock.Id && x.UserId == _currentUserService.UserId, AsNoTracking: false);
             if (lastLockClaim is null)
             {
-                lastLockClaim = await userLockClaimWriteRepo.InsertAsync(new UserLockClaimEntity
+                lastLockClaim = await _userLockClaimWriteRepo.InsertAsync(new UserLockClaimEntity
                 {
                     Id = Guid.NewGuid().ToString(),
-                    ClaimType = currentUserService.UserType == UserTypeEnum.Guest ? ClaimTypeEnum.Once : ClaimTypeEnum.Always,
+                    ClaimType = _currentUserService.UserType == UserTypeEnum.Guest ? ClaimTypeEnum.Once : ClaimTypeEnum.Always,
                     LockId = thisLock.Id,
-                    UserId = currentUserService.UserId,
-                    AccessUntil = currentUserService.UserType == UserTypeEnum.Guest ? dateTimeService.Now.AddSeconds(-1) : dateTimeService.Now.AddYears(1)
+                    UserId = _currentUserService.UserId,
+                    AccessUntil = _currentUserService.UserType == UserTypeEnum.Guest ? _dateTimeService.Now.AddSeconds(-1) : _dateTimeService.Now.AddYears(1)
                 });
-                if (currentUserService.UserType == UserTypeEnum.Guest)
+                if (_currentUserService.UserType == UserTypeEnum.Guest)
                     needConfirm = true;
             }
-            else if (lastLockClaim.AccessUntil < dateTimeService.Now)
+            else if (lastLockClaim.AccessUntil < _dateTimeService.Now)
             {
-                if (currentUserService.UserType == UserTypeEnum.Guest)
+                if (_currentUserService.UserType == UserTypeEnum.Guest)
                     needConfirm = true;
                 else
-                    lastLockClaim.AccessUntil = dateTimeService.Now.AddYears(1);
+                    lastLockClaim.AccessUntil = _dateTimeService.Now.AddYears(1);
             }
             // notify admin with user access
-            var thisUser = await userService.GetByIdAsync(currentUserService.UserId);
-            NotifyAdminToGrantAccess(thisUser.Email, lastLockClaim.Id, needConfirm);
+            var thisUser = await _userService.GetByIdAsync(_currentUserService.UserId);
+            _notificationService.GrantAccessNotify(thisUser, lastLockClaim.Id, needConfirm);
 
-            await accessHistoryWriteRepo.InsertAsync(new LockAccessHistoryEntity
+            await _accessHistoryWriteRepo.InsertAsync(new LockAccessHistoryEntity
             {
                 AccessStatus = needConfirm ? LockAccessStatusEnum.AccessDenied : LockAccessStatusEnum.AccessGranted,
                 DoorLockId = thisLock.Id,
                 Reason = "Requrested lock access",
                 UserId = thisUser.Id,
             });
-
             // save to db
-            await userLockClaimWriteRepo.SaveChangesAsync();
-            await accessHistoryWriteRepo.SaveChangesAsync();
-
+            await _userLockClaimWriteRepo.SaveChangesAsync();
+            await _accessHistoryWriteRepo.SaveChangesAsync();
             if (needConfirm)
                 throw new UnauthorizedAccessException("Please wait access will be granted on admin confirmation");
             //IOT service call simulation to open the door
-            await lockControlService.OpenLock(thisLock.DoorKeyCode);
+            await _lockControlService.OpenLock(thisLock.DoorKeyCode);
         }
 
         public async Task GrantAccessOnLock(string claimId)
@@ -126,71 +126,52 @@ namespace Application.Services
                 throw new ApplicationException("ClaimId is required");
 
             //check claim
-            var lockClaim = await userLockClaimReadRepo.GetAsync(claimId, false);
+            var lockClaim = await _userLockClaimReadRepo.GetAsync(claimId, false);
             if (lockClaim is null)
                 throw new KeyNotFoundException("ClaimId is not valid");
 
-            if (lockClaim.AccessUntil > dateTimeService.Now)
+            if (lockClaim.AccessUntil > _dateTimeService.Now)
                 throw new ApplicationException("Access already granded");
 
             //check lock
             var doorLock = await CheckLockByIdAsync(lockClaim.LockId);
 
             //update claim
-            var user = await userService.GetByIdAsync(lockClaim.UserId);
+            var user = await _userService.GetByIdAsync(lockClaim.UserId);
             lockClaim.AccessUntil = user.UserType == UserTypeEnum.Guest ?
-                dateTimeService.Now.AddHours(1) : dateTimeService.Now.AddYears(1);
+                _dateTimeService.Now.AddHours(1) : _dateTimeService.Now.AddYears(1);
 
-            await userLockClaimWriteRepo.SaveChangesAsync();
+            await _userLockClaimWriteRepo.SaveChangesAsync();
 
             // update history
-            var history = await accessHistoryReadRepo.FirstByConditionAsync(x => x.UserId == lockClaim.UserId && x.DoorLockId == lockClaim.LockId, AsNoTracking: false);
+            var history = await _accessHistoryReadRepo.FirstByConditionAsync(x => x.UserId == lockClaim.UserId && x.DoorLockId == lockClaim.LockId, AsNoTracking: false);
             if (history is not null)
             {
                 history.AccessStatus = LockAccessStatusEnum.AccessGranted;
-                await accessHistoryWriteRepo.SaveChangesAsync();
+                await _accessHistoryWriteRepo.SaveChangesAsync();
             }
             // open the door
-            await lockControlService.OpenLock(doorLock.DoorKeyCode);
+            await _lockControlService.OpenLock(doorLock.DoorKeyCode);
         }
 
         #region Private
-        async Task<DoorLockEntity> CheckLockByCodeAsync(string code)
-        {
-            var thisLock = await lockRepo.FirstByConditionAsync(l => l.DoorKeyCode.Equals(code) && l.RecordStatus != RecordStatusEnum.Deleted);
-            if (thisLock is null)
-                throw new KeyNotFoundException("DoorKeyCode does not exist");
-            if (thisLock.RecordStatus == RecordStatusEnum.InActive)
-                throw new ApplicationException("DoorKeyCode does not active");
-            return thisLock;
-        }
         async Task<DoorLockEntity> CheckLockByIdAsync(Guid id)
         {
-            var thisLock = await lockRepo.FirstByConditionAsync(l => l.Id == id && l.RecordStatus != RecordStatusEnum.Deleted);
+            var thisLock = await _lockRepo.FirstByConditionAsync(l => l.Id == id && l.RecordStatus != RecordStatusEnum.Deleted);
             if (thisLock is null)
                 throw new KeyNotFoundException("Lock does not exist");
             if (thisLock.RecordStatus == RecordStatusEnum.InActive)
                 throw new ApplicationException("Lock does not active");
             return thisLock;
         }
-
-        // for demo purpose
-        void NotifyAdminToGrantAccess(string userEmail, string claimId, bool needConfirm = true)
+        async Task<DoorLockEntity> CheckLockByCodeAsync(string code)
         {
-            var withLink = string.Empty;
-            if (currentUserService.UserType == UserTypeEnum.Guest && needConfirm)
-            {
-                var cofirmationLink = configuration.GetValue<string>("HostDomain");
-                cofirmationLink += $"api/admin/grant_access?ClaimId={claimId}";
-                withLink = $"</br>Confirm user account link:</br>{cofirmationLink}";
-            }
-
-            emailService.SendEmailTask(new MailRequest
-            {
-                Subject = "User requested door access!",
-                ToEmail = configuration.GetValue<string>("AdminEmail"),
-                Body = $"{currentUserService.UserType} User email: {userEmail} requested access {withLink}"
-            });
+            var thisLock = await _lockRepo.FirstByConditionAsync(l => l.DoorKeyCode.Equals(code) && l.RecordStatus != RecordStatusEnum.Deleted);
+            if (thisLock is null)
+                throw new KeyNotFoundException("DoorKeyCode does not exist");
+            if (thisLock.RecordStatus == RecordStatusEnum.InActive)
+                throw new ApplicationException("DoorKeyCode does not active");
+            return thisLock;
         }
         #endregion
     }

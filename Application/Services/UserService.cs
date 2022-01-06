@@ -25,11 +25,13 @@ namespace Application.Services
         readonly ICurrentUserService _currentUserService;
         readonly IDateTimeService _dateTimeService;
         readonly IEmailService _emailService;
+        readonly INotificationService _notificationService;
         readonly IConfiguration _configuration;
 
         public UserService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager,
             IJwtUtils jwtUtils, ICurrentUserService currentUserService,
-            IDateTimeService dateTimeService, IEmailService emailService, IConfiguration configuration)
+            IDateTimeService dateTimeService, IEmailService emailService,
+            INotificationService notificationService, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -37,6 +39,7 @@ namespace Application.Services
             _currentUserService = currentUserService;
             _dateTimeService = dateTimeService;
             _emailService = emailService;
+            _notificationService = notificationService;
             _configuration = configuration;
         }
 
@@ -98,7 +101,6 @@ namespace Application.Services
             var user = await _userManager.FindByEmailAsync(dto.UserEmail);
             if (user is not null)
                 throw new ApplicationException("UserEmail is already exist");
-
             //password
             var hashedPassword = new PasswordHasher<UserEntity>().HashPassword(user, dto.Password);
             var userId = Guid.NewGuid().ToString();
@@ -113,8 +115,6 @@ namespace Application.Services
                 NormalizedUserName = dto.UserEmail.ToUpper(),
                 PasswordHash = hashedPassword,
                 UserType = dto.UserType,
-                // Employee user need the admin to activate it
-                // Guest no need but he can't access a lock without admin permission
                 RecordStatus = dto.UserType == UserTypeEnum.Employee ? RecordStatusEnum.InActive : RecordStatusEnum.Active,
                 EmailConfirmed = false,
                 PhoneNumberConfirmed = true,
@@ -124,14 +124,12 @@ namespace Application.Services
             // save changes to db
             (await _userManager.CreateAsync(newUser))
                 .ResolveIdentityErrorResult();
-
             //email user
             var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
-            SendConfirmationEmail(newUser.Id, dto.UserEmail, confirmationToken);
+            _notificationService.AccountConfirmationNotify(newUser, confirmationToken);
             // email admin for demo purpose
             if (newUser.UserType == UserTypeEnum.Employee)
-                SendToAdminEmail(newUser);
-
+                _notificationService.AccountActivationNotify(newUser);
             return new RegisterUserResponseDto
             {
                 FirstName = dto.FirstName,
@@ -180,31 +178,6 @@ namespace Application.Services
             user.RecordStatus = RecordStatusEnum.Deleted;
             (await _userManager.UpdateAsync(user))
                 .ResolveIdentityErrorResult();
-        }
-
-        // private
-        void SendConfirmationEmail(string userId, string toEmail, string confirmationToken)
-        {
-            var cofirmationLink = _configuration.GetValue<string>("HostDomain");
-            cofirmationLink += $"api/account/confirmation?id={userId}&confirmationtoken={HttpUtility.UrlEncode(confirmationToken)}";
-            _emailService.SendEmailTask(new MailRequest
-            {
-                Subject = "Welcome to the matrix!",
-                ToEmail = toEmail,
-                Body = $"Your confirmation link:</br>{cofirmationLink}"
-            });
-        }
-        // for demo purpose
-        void SendToAdminEmail(UserEntity user)
-        {
-            var cofirmationLink = _configuration.GetValue<string>("HostDomain");
-            cofirmationLink += $"api/admin/account_activation?UserId={user.Id}";
-            _emailService.SendEmailTask(new MailRequest
-            {
-                Subject = "Please confirm user account as employee!",
-                ToEmail = _configuration.GetValue<string>("AdminEmail"),
-                Body = $"Employee email: {user.Email}</br>Confirm user account link:</br>{cofirmationLink}"
-            });
         }
     }
 }
