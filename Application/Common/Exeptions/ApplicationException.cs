@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Domain.Common.Exeptions
+namespace Application.Common.Exeptions
 {
     public class ApplicationException : Exception
     {

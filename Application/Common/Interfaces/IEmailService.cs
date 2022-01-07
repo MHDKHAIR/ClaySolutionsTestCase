@@ -1,9 +1,7 @@
-﻿using Domain.Common;
-
-namespace Application.Common.Interfaces
+﻿namespace Application.Common.Interfaces
 {
     public interface IEmailService
     {
-        void SendEmailTask(MailRequest mailRequest);
+        void SendEmailTask(IMailRequest mailRequest);
     }
 }

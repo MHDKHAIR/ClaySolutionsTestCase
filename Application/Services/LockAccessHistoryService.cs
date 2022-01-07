@@ -1,10 +1,11 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Common.Enums;
+using Application.Common.Interfaces;
 using Application.Common.Interfaces.Persistence;
+using Application.Common.Results;
+using Application.Common.Search;
 using Application.DataTransfareObjects.Responses;
 using Application.Services.Interfaces;
 using AutoMapper;
-using Domain.Common.Results;
-using Domain.Common.Search;
 using Domain.Entities;
 using Domain.Enums;
 using EntityFrameworkPaginateCore;

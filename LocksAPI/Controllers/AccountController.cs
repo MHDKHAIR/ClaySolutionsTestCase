@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Domain.Common.Results;
 using Application.DataTransfareObjects.Requests;
 using System.Threading.Tasks;
 using Application.DataTransfareObjects.Responses;
 using Application.Services.Interfaces;
+using Application.Common.Results;
 
 namespace LocksAPI.Controllers
 {

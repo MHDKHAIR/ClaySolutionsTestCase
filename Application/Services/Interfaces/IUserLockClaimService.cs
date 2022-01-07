@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Application.Common.Enums;
+using Application.Common.Results;
+using Application.Common.Search;
 using Application.DataTransfareObjects.Responses;
-using Domain.Common.Results;
-using Domain.Common.Search;
-using Domain.Enums;
 
 namespace Application.Services.Interfaces
 {

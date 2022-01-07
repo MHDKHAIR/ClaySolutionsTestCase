@@ -1,7 +1,7 @@
-﻿using Application.DataTransfareObjects.Responses;
-using Domain.Common.Results;
-using Domain.Common.Search;
-using Domain.Enums;
+﻿using Application.Common.Enums;
+using Application.Common.Results;
+using Application.Common.Search;
+using Application.DataTransfareObjects.Responses;
 using System.Threading.Tasks;
 
 namespace Application.Services.Interfaces

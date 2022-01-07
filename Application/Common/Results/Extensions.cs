@@ -1,4 +1,4 @@
-﻿namespace Domain.Common.Results
+﻿namespace Application.Common.Results
 {
     public static class Extensions
     {

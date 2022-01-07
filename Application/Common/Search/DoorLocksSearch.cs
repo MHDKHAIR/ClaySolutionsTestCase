@@ -1,7 +1,7 @@
 ﻿using System;
 using Domain.Enums;
 
-namespace Domain.Common.Search
+namespace Application.Common.Search
 {
     public class UserDoorLocksSearch : GeneralSearch
     {

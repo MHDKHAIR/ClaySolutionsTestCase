@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -9,7 +8,6 @@ using Application.DataTransfareObjects.Responses;
 using Application.Utils;
 using Application.Validators;
 using Application.Extentions;
-using Domain.Common;
 using Domain.Entities;
 using Domain.Enums;
 using Application.Services.Interfaces;
@@ -141,6 +139,9 @@ namespace Application.Services
         }
         public async Task ActivateAccountAsync(string userId)
         {
+            if (_currentUserService.UserType is Domain.Enums.UserTypeEnum.Admin)
+                throw new UnauthorizedAccessException("This is only for admin");
+
             if (string.IsNullOrEmpty(userId))
                 throw new Exception("UserId is empty");
 

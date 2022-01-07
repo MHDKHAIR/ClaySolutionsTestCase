@@ -1,8 +1,8 @@
 ﻿using System;
-using Domain.Enums;
-using Domain.Interfaces;
+using Application.Common.Enums;
+using Application.Common.Interfaces;
 
-namespace Domain.Common.Search
+namespace Application.Common.Search
 {
     public class BaseSearchQuery<S, T> where S : IGeneralSearch where T : Enum
     {

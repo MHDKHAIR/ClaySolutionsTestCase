@@ -1,4 +1,4 @@
-﻿namespace Domain.Enums
+﻿namespace Application.Common.Enums
 {
     public enum GeneralSortEnum
     {

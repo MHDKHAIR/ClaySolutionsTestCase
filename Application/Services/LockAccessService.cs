@@ -6,8 +6,6 @@ using Application.Validators;
 using Application.Extentions;
 using Domain.Entities;
 using Domain.Enums;
-using Domain.Common;
-using Microsoft.Extensions.Configuration;
 using Application.Services.Interfaces;
 using Application.Common.Interfaces;
 using Application.Common.Interfaces.Persistence;
@@ -19,7 +17,6 @@ namespace Application.Services
         readonly ICurrentUserService _currentUserService;
         readonly IGeoLocationService _locationService;
         readonly ILockControlService _lockControlService;
-        readonly IEmailService _emailService;
         readonly IUserService _userService;
         readonly IDateTimeService _dateTimeService;
         readonly IReadRepository<DoorLockEntity> _lockRepo;
@@ -28,13 +25,11 @@ namespace Application.Services
         readonly IReadRepository<UserLockClaimEntity> _userLockClaimReadRepo;
         readonly IWriteRepository<UserLockClaimEntity> _userLockClaimWriteRepo;
         readonly INotificationService _notificationService;
-        readonly IConfiguration _configuration;
 
         public LockAccessService(
             ICurrentUserService currentUserService,
             IGeoLocationService locationService,
             ILockControlService lockControlService,
-            IEmailService emailService,
             IUserService userService,
             IDateTimeService dateTimeService,
             IReadRepository<DoorLockEntity> lockRepo,
@@ -42,12 +37,11 @@ namespace Application.Services
             IWriteRepository<LockAccessHistoryEntity> accessHistoryWriteRepo,
             IReadRepository<UserLockClaimEntity> userLockClaimReadRepo,
             IWriteRepository<UserLockClaimEntity> userLockClaimWriteRepo,
-            INotificationService notificationService, IConfiguration configuration)
+            INotificationService notificationService)
         {
             _currentUserService = currentUserService;
             _locationService = locationService;
             _lockControlService = lockControlService;
-            _emailService = emailService;
             _userService = userService;
             _dateTimeService = dateTimeService;
             _lockRepo = lockRepo;
@@ -56,7 +50,6 @@ namespace Application.Services
             _userLockClaimReadRepo = userLockClaimReadRepo;
             _userLockClaimWriteRepo = userLockClaimWriteRepo;
             _notificationService = notificationService;
-            _configuration = configuration;
         }
 
         public async Task AccessLock(AccessLockRequestDto requestDto)
@@ -121,6 +114,9 @@ namespace Application.Services
 
         public async Task GrantAccessOnLock(string claimId)
         {
+            if (_currentUserService.UserType is Domain.Enums.UserTypeEnum.Admin)
+                throw new UnauthorizedAccessException("This is only for admin");
+
             //validation
             if (string.IsNullOrEmpty(claimId))
                 throw new ApplicationException("ClaimId is required");

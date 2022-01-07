@@ -1,4 +1,4 @@
-﻿namespace Domain.Common
+﻿namespace Infrastructure.Common
 {
     public record MailSettings
     {

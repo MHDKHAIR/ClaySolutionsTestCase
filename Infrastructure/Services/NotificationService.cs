@@ -1,7 +1,7 @@
 ﻿using Application.Common.Interfaces;
-using Domain.Common;
 using Domain.Entities;
 using Domain.Enums;
+using Infrastructure.Common;
 using Microsoft.Extensions.Configuration;
 using System.Web;
 

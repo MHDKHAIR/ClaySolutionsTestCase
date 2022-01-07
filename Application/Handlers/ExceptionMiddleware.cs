@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Domain.Common.Results;
+using Application.Common.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 

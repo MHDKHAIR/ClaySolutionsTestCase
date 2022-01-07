@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Domain.Common.Results
+namespace Application.Common.Results
 {
     public class DataList<T>
     {

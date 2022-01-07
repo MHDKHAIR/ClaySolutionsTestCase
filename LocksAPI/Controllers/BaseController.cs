@@ -9,6 +9,10 @@ namespace LocksAPI.Controllers
     {
         protected readonly ICurrentUserService currentUser;
 
+        public BaseController()
+        {
+
+        }
         public BaseController(ICurrentUserService currentUser) => this.currentUser = currentUser;
 
     }

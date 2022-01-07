@@ -5,8 +5,8 @@ using Microsoft.Extensions.Logging;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
-using Domain.Common;
 using Application.Common.Interfaces;
+using Infrastructure.Common;
 
 namespace Infrastructure.Services
 {
@@ -23,7 +23,7 @@ namespace Infrastructure.Services
             _mailSettings = new MailSettings();
             _configuration.GetSection("MailSettings").Bind(_mailSettings);
         }
-        public void SendEmailTask(MailRequest mailRequest)
+        public void SendEmailTask(IMailRequest mailRequest)
         {
             Task.Run(() =>
               {
