@@ -7,18 +7,18 @@ using Application.Common.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Application.Handlers
+namespace LocksAPI.Middlewares
 {
-    public class ExceptionMiddleware
+    public class ExceptionHandler
     {
         private readonly RequestDelegate _next;
 
-        public ExceptionMiddleware(RequestDelegate next)
+        public ExceptionHandler(RequestDelegate next)
         {
             _next = next;
         }
 
-        public async Task Invoke(HttpContext context, ILogger<ExceptionMiddleware> logger)
+        public async Task Invoke(HttpContext context, ILogger<ExceptionHandler> logger)
         {
             try
             {

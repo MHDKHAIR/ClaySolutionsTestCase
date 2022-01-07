@@ -8,8 +8,8 @@ using Application.Utils;
 using Application.Common.Interfaces;
 using Application.Extentions;
 
-namespace Application.Handlers
-{
+namespace LocksAPI.Middlewares
+{ 
     public class JWTMiddleware
     {
         readonly RequestDelegate _next;

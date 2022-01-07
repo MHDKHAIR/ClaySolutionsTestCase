@@ -8,12 +8,10 @@ using Infrastructure;
 using Application;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;
-using Application.Handlers;
 using Domain.Entities;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
-using Application.Common.Interfaces;
-using Infrastructure.Services;
+using LocksAPI.Middlewares;
 
 namespace LocksAPI
 {
@@ -96,15 +94,13 @@ namespace LocksAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseMiddleware<ExceptionMiddleware>();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Clay LocksAPI v1"));
             }
             else
-            {
-                app.UseMiddleware<ExceptionMiddleware>();
                 app.UseHttpsRedirection();
-            }
+
+            app.UseMiddleware<ExceptionHandler>();
 
             app.UseRouting();
 

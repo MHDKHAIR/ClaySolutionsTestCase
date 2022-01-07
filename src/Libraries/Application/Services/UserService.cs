@@ -22,23 +22,18 @@ namespace Application.Services
         readonly IJwtUtils _jwtUtils;
         readonly ICurrentUserService _currentUserService;
         readonly IDateTimeService _dateTimeService;
-        readonly IEmailService _emailService;
         readonly INotificationService _notificationService;
-        readonly IConfiguration _configuration;
 
         public UserService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager,
             IJwtUtils jwtUtils, ICurrentUserService currentUserService,
-            IDateTimeService dateTimeService, IEmailService emailService,
-            INotificationService notificationService, IConfiguration configuration)
+            IDateTimeService dateTimeService, INotificationService notificationService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _jwtUtils = jwtUtils;
             _currentUserService = currentUserService;
             _dateTimeService = dateTimeService;
-            _emailService = emailService;
             _notificationService = notificationService;
-            _configuration = configuration;
         }
 
         public async Task<UserEntity> GetByIdAsync(string id, params string[] include)
