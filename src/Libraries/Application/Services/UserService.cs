@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Application.DataTransfareObjects.Requests;
 using Application.DataTransfareObjects.Responses;
 using Application.Utils;
@@ -18,18 +17,16 @@ namespace Application.Services
     public class UserService : IUserService
     {
         readonly UserManager<UserEntity> _userManager;
-        readonly SignInManager<UserEntity> _signInManager;
         readonly IJwtUtils _jwtUtils;
         readonly ICurrentUserService _currentUserService;
         readonly IDateTimeService _dateTimeService;
         readonly INotificationService _notificationService;
 
-        public UserService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager,
+        public UserService(UserManager<UserEntity> userManager,
             IJwtUtils jwtUtils, ICurrentUserService currentUserService,
             IDateTimeService dateTimeService, INotificationService notificationService)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _jwtUtils = jwtUtils;
             _currentUserService = currentUserService;
             _dateTimeService = dateTimeService;
@@ -38,6 +35,9 @@ namespace Application.Services
 
         public async Task<UserEntity> GetByIdAsync(string id, params string[] include)
         {
+            if (string.IsNullOrEmpty(id))
+                throw new Common.Exeptions.ApplicationException("id must have a value");
+
             var userEntity = await _userManager.FindByIdAsync(id);
 
             if (userEntity is null)
@@ -55,25 +55,23 @@ namespace Application.Services
             //check
             var user = await _userManager.FindByEmailAsync(dto.UserEmail);
             if (user is null)
-                throw new ApplicationException("UserEmail or Password is incorrect");
+                throw new Common.Exeptions.ApplicationException("UserEmail or Password is incorrect");
 
             if (user.RecordStatus is RecordStatusEnum.Deleted)
-                throw new ApplicationException("User does not exist");
+                throw new Common.Exeptions.ApplicationException("User does not exist");
 
             if (user.RecordStatus is RecordStatusEnum.InActive)
-                throw new ApplicationException("User is not active");
+                throw new Common.Exeptions.ApplicationException("User is not active");
 
             //password
             PasswordHasher<UserEntity> hasher = new PasswordHasher<UserEntity>();
             var result = hasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
 
             if (result is PasswordVerificationResult.Failed)
-                throw new ApplicationException("UserEmail or Password is incorrect");
+                throw new Common.Exeptions.ApplicationException("UserEmail or Password is incorrect");
 
             // authentication successful so generate jwt and refresh tokens
-            var jwtToken = _jwtUtils.GenerateJwtToken(user);
-
-            var canSignIn = await _signInManager.CanSignInAsync(user);
+            var jwtToken = _jwtUtils.GenerateJwtToken(user, dto.RememberMe);
 
             return new SignInResponseDto
             {
@@ -81,7 +79,7 @@ namespace Application.Services
                 LastName = user.LastName,
                 Username = user.Email,
                 JwtToken = jwtToken,
-                IsEmailConfirmed = canSignIn
+                IsEmailConfirmed = user.EmailConfirmed
             };
         }
         public async Task<RegisterUserResponseDto> RegisterUserAsync(RegisterUserRequestDto dto)
@@ -93,7 +91,7 @@ namespace Application.Services
             //check
             var user = await _userManager.FindByEmailAsync(dto.UserEmail);
             if (user is not null)
-                throw new ApplicationException("UserEmail is already exist");
+                throw new Common.Exeptions.ApplicationException("UserEmail is already exist");
             //password
             var hashedPassword = new PasswordHasher<UserEntity>().HashPassword(user, dto.Password);
             var userId = Guid.NewGuid().ToString();
@@ -134,7 +132,7 @@ namespace Application.Services
         }
         public async Task ActivateAccountAsync(string userId)
         {
-            if (_currentUserService.UserType is Domain.Enums.UserTypeEnum.Admin)
+            if (_currentUserService.UserType is UserTypeEnum.Admin)
                 throw new UnauthorizedAccessException("This is only for admin");
 
             if (string.IsNullOrEmpty(userId))
@@ -142,9 +140,9 @@ namespace Application.Services
 
             var user = await _userManager.FindByIdAsync(userId);
             if (user.RecordStatus is RecordStatusEnum.Active)
-                throw new ApplicationException("User already activated");
+                throw new Common.Exeptions.ApplicationException("User already activated");
             if (user.UserType is not UserTypeEnum.Employee)
-                throw new ApplicationException("Only Employee allowed to be activated");
+                throw new Common.Exeptions.ApplicationException("Only Employee allowed to be activated");
 
             user.RecordStatus = RecordStatusEnum.Active;
             (await _userManager.UpdateAsync(user))
@@ -154,9 +152,9 @@ namespace Application.Services
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user is null)
-                throw new ApplicationException("User not found");
+                throw new Common.Exeptions.ApplicationException("User not found");
             if (await _userManager.IsEmailConfirmedAsync(user))
-                throw new ApplicationException("Email is confirmed already");
+                throw new Common.Exeptions.ApplicationException("Email is confirmed already");
             (await _userManager.ConfirmEmailAsync(user, token))
                 .ResolveIdentityErrorResult();
         }
@@ -165,11 +163,11 @@ namespace Application.Services
             if (string.IsNullOrEmpty(userId))
                 userId = _currentUserService?.UserId ?? string.Empty;
             if (string.IsNullOrEmpty(userId))
-                throw new ApplicationException("UserId is empty");
+                throw new Common.Exeptions.ApplicationException("UserId is empty");
 
             var user = await _userManager.FindByIdAsync(userId);
             if (user is null || user.RecordStatus == RecordStatusEnum.Deleted)
-                throw new ApplicationException("User not found");
+                throw new Common.Exeptions.ApplicationException("User not found");
 
             user.RecordStatus = RecordStatusEnum.Deleted;
             (await _userManager.UpdateAsync(user))

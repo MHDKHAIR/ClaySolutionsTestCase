@@ -12,7 +12,7 @@ namespace Application.Extentions
             {
                 var errors = string.Empty;
                 identityResult.Errors.ToList().ForEach(e => errors += e.Description + Environment.NewLine);
-                throw new ApplicationException(errors);
+                throw new Common.Exeptions.ApplicationException(errors);
             }
         }
     }

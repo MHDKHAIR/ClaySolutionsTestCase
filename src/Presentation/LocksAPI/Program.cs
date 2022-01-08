@@ -17,8 +17,6 @@ namespace LocksAPI
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var env = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
-                    //todo enable this
                     SeedData.InitializeDataAsync(services).Wait();
                 }
                 catch (Exception ex)

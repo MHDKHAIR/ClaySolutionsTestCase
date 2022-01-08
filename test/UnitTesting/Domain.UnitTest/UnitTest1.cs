@@ -1,18 +1,18 @@
-using NUnit.Framework;
+using Xunit;
 
 namespace Domain.UnitTest
 {
     public class Tests
     {
-        [SetUp]
-        public void Setup()
+        public Tests()
         {
+
         }
 
-        [Test]
+        [Fact]
         public void Test1()
         {
-            Assert.Pass();
+            Assert.True(true);
         }
     }
 }

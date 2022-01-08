@@ -11,7 +11,7 @@ namespace Application.Extentions
             {
                 var errors = string.Empty;
                 result.Errors.ForEach(e => errors += e.ErrorMessage + Environment.NewLine);
-                throw new ApplicationException(errors);
+                throw new Common.Exeptions.ApplicationException(errors);
             }
         }
     }

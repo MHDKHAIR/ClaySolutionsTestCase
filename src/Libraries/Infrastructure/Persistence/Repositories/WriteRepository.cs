@@ -24,7 +24,7 @@ namespace Infrastructure.Persistence.Repositories
         {
             if (entity == null)
             {
-                throw new ApplicationException("No Data Found");
+                throw new Application.Common.Exeptions.ApplicationException("No Data Found");
             }
             await dbSet.AddAsync(entity);
 
@@ -41,7 +41,7 @@ namespace Infrastructure.Persistence.Repositories
             TEntity entity = await dbSet.FindAsync(id, cancellationToken);
             if (entity == null)
             {
-                throw new ApplicationException("No Data Found");
+                throw new Application.Common.Exeptions.ApplicationException("No Data Found");
             }
             entity.RecordStatus = RecordStatusEnum.Deleted;
 

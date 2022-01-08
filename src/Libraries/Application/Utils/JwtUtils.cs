@@ -20,7 +20,7 @@ namespace Application.Utils
             _configuration = configuration;
         }
 
-        public string GenerateJwtToken(UserEntity user)
+        public string GenerateJwtToken(UserEntity user, bool longTokens)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("JwtSecret"));
@@ -30,7 +30,8 @@ namespace Application.Utils
                     new Claim("id", user.Id.ToString()),
                     new Claim("usertype", Enum.GetName(typeof(UserTypeEnum), user.UserType))
                 }),
-                Expires = DateTime.UtcNow.AddHours(_configuration.GetValue<int>("JwtExpire")),
+                Expires = longTokens ? DateTime.Now.AddDays(_configuration.GetValue<int>("JwtLongExpire")) :
+                                       DateTime.UtcNow.AddHours(_configuration.GetValue<int>("JwtExpire")),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

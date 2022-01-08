@@ -66,7 +66,7 @@ namespace Application.Services
 
             //check distance
             if (userFromLockDistance > (await _lockControlService.GetLockValidDistance(thisLock.DoorKeyCode)))
-                throw new ApplicationException("Too far to access the lock, the distance should be 10 or less meters");
+                throw new Common.Exeptions.ApplicationException("Too far to access the lock, the distance should be 10 or less meters");
 
             //check claim
             var needConfirm = false;
@@ -119,7 +119,7 @@ namespace Application.Services
 
             //validation
             if (string.IsNullOrEmpty(claimId))
-                throw new ApplicationException("ClaimId is required");
+                throw new Common.Exeptions.ApplicationException("ClaimId is required");
 
             //check claim
             var lockClaim = await _userLockClaimReadRepo.GetAsync(claimId, false);
@@ -127,7 +127,7 @@ namespace Application.Services
                 throw new KeyNotFoundException("ClaimId is not valid");
 
             if (lockClaim.AccessUntil > _dateTimeService.Now)
-                throw new ApplicationException("Access already granded");
+                throw new Common.Exeptions.ApplicationException("Access already granded");
 
             //check lock
             var doorLock = await CheckLockByIdAsync(lockClaim.LockId);
@@ -157,7 +157,7 @@ namespace Application.Services
             if (thisLock is null)
                 throw new KeyNotFoundException("Lock does not exist");
             if (thisLock.RecordStatus == RecordStatusEnum.InActive)
-                throw new ApplicationException("Lock does not active");
+                throw new Common.Exeptions.ApplicationException("Lock does not active");
             return thisLock;
         }
         async Task<DoorLockEntity> CheckLockByCodeAsync(string code)
@@ -166,7 +166,7 @@ namespace Application.Services
             if (thisLock is null)
                 throw new KeyNotFoundException("DoorKeyCode does not exist");
             if (thisLock.RecordStatus == RecordStatusEnum.InActive)
-                throw new ApplicationException("DoorKeyCode does not active");
+                throw new Common.Exeptions.ApplicationException("DoorKeyCode does not active");
             return thisLock;
         }
         #endregion

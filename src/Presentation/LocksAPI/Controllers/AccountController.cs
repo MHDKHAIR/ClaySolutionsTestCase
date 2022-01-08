@@ -21,9 +21,8 @@ namespace LocksAPI.Controllers
             _userService = userService;
         }
 
-
         [HttpPost("signing_in")]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Result))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(IResult))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IResult))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(IResult))]
         public async Task<IActionResult> SigningIn(SignInRequestDto SignInDto)
@@ -34,13 +33,13 @@ namespace LocksAPI.Controllers
         }
 
         [HttpPost("registration")]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Result))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(IResult))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IResult))]
         public async Task<IActionResult> Registration(RegisterUserRequestDto RegistrationDto)
         {
             var result = await _userService.RegisterUserAsync(RegistrationDto);
             Response.StatusCode = StatusCodes.Status201Created;
-            return new JsonResult(result);
+            return new JsonResult(Result<RegisterUserResponseDto>.Success(result));
         }
 
         [HttpGet("confirmation")]

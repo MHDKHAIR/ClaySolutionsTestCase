@@ -31,7 +31,6 @@ namespace LocksAPI
 
             services.AddIdentityCore<UserEntity>(x => x.SignIn.RequireConfirmedEmail = true)
                     .AddUserManager<UserManager<UserEntity>>()
-                    .AddSignInManager<SignInManager<UserEntity>>()
                     .AddEntityFrameworkStores<ApplicationDbContext>()
                     .AddTokenProvider<DataProtectorTokenProvider<UserEntity>>(TokenOptions.DefaultProvider);
 

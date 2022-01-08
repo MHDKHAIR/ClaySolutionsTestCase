@@ -31,7 +31,7 @@ namespace LocksAPI.Middlewares
 
                 switch (error)
                 {
-                    case ApplicationException:
+                    case Application.Common.Exeptions.ApplicationException:
                         // custom application error
                         response.StatusCode = (int)HttpStatusCode.BadRequest;
                         break;
