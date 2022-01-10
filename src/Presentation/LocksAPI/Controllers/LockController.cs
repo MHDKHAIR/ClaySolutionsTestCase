@@ -55,9 +55,9 @@ namespace LocksAPI.Controllers
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable, Type = typeof(IResult))]
         public async Task<IActionResult> AccessLock(AccessLockRequestDto AccessDto)
         {
-            await _lockAccessService.AccessLock(AccessDto);
+            var result = await _lockAccessService.AccessLock(AccessDto);
 
-            return Ok(Result.Success("Access Granted"));
+            return Ok(Result<AccessLockResponseDto>.Success(result, "Access Granted"));
         }
     }
 }

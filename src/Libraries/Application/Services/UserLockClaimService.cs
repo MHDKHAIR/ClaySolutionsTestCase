@@ -18,11 +18,11 @@ namespace Application.Services
     public class UserLockClaimService : IUserLockClaimService
     {
         readonly ICurrentUserService _currentUserService;
-        readonly IReadRepository<UserLockClaimEntity> _mainRepo;
+        readonly IEfRepository<UserLockClaimEntity> _mainRepo;
         readonly IMapper _mapper;
 
         public UserLockClaimService(ICurrentUserService currentUserService,
-            IReadRepository<UserLockClaimEntity> mainRepo, IMapper mapper)
+            IEfRepository<UserLockClaimEntity> mainRepo, IMapper mapper)
         {
             _currentUserService = currentUserService;
             _mainRepo = mainRepo;

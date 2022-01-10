@@ -31,8 +31,7 @@ namespace Infrastructure
                         }));
             }
             //Scoped
-            services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
-            services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
+            services.AddScoped(typeof(IEfRepository<>), typeof(EfRepository<>));
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();

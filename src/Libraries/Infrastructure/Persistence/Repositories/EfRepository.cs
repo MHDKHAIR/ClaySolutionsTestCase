@@ -1,25 +1,26 @@
-﻿using Application.Common.Interfaces.Persistence;
-using Domain.Interfaces;
-using EntityFrameworkPaginateCore;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using EntityFrameworkPaginateCore;
+using Domain.Enums;
+using Domain.Interfaces;
+using Application.Common.Interfaces.Persistence;
 
 namespace Infrastructure.Persistence.Repositories
 {
-    public class ReadRepository<TEntity> : IReadRepository<TEntity> where TEntity : class, IBaseEntity
+    public class EfRepository<TEntity> : IEfRepository<TEntity> where TEntity : class, IBaseEntity
     {
         protected ApplicationDbContext _context;
         private DbSet<TEntity> dbSet;
-        public ReadRepository(ApplicationDbContext context)
+        public EfRepository(ApplicationDbContext context)
         {
             _context = context;
             dbSet = context.Set<TEntity>();
         }
-
 
         #region Get
         public async Task<TEntity> GetAsync(object id, bool AsNoTracking = true, params string[] includes)
@@ -102,6 +103,44 @@ namespace Infrastructure.Persistence.Repositories
         public IQueryable<TEntity> GetRawTable() => dbSet.AsNoTracking().AsQueryable();
         #endregion
 
+        #region Insert
+        public async Task<TEntity> InsertAsync(TEntity entity, bool SaveChange = false, CancellationToken cancellationToken = default)
+        {
+            if (entity == null)
+            {
+                throw new Application.Common.Exeptions.ApplicationException("No Data Found");
+            }
+            await dbSet.AddAsync(entity);
+
+            if (SaveChange) await SaveChangesAsync(cancellationToken);
+
+            return entity;
+        }
+
+        #endregion
+
+        #region DeleteOrRemove
+        public async Task<TEntity> SoftDeleteAsync(object id, bool SaveChange = false, CancellationToken cancellationToken = default)
+        {
+            TEntity entity = await dbSet.FindAsync(id, cancellationToken);
+            if (entity == null)
+            {
+                throw new Application.Common.Exeptions.ApplicationException("No Data Found");
+            }
+            entity.RecordStatus = RecordStatusEnum.Deleted;
+
+            if (SaveChange) await SaveChangesAsync(cancellationToken);
+
+            return entity;
+        }
+        #endregion
+
+        #region SaveChanges
+        public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+        #endregion
         private IQueryable<TEntity> GetSet(DbSet<TEntity> dbSet, bool AsNoTracking, params string[] includes)
         {
             var set = dbSet.AsQueryable();

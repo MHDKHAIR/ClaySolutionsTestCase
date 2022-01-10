@@ -18,10 +18,10 @@ namespace Application.Services
     {
         private readonly IMapper _mapper;
         private readonly ICurrentUserService _currentUserService;
-        private readonly IReadRepository<LockAccessHistoryEntity> _accessHistoryRepo;
+        private readonly IEfRepository<LockAccessHistoryEntity> _accessHistoryRepo;
 
         public LockAccessHistoryService(IMapper mapper, ICurrentUserService currentUserService,
-            IReadRepository<LockAccessHistoryEntity> accessHistoryRepo)
+            IEfRepository<LockAccessHistoryEntity> accessHistoryRepo)
         {
             _mapper = mapper;
             _currentUserService = currentUserService;
