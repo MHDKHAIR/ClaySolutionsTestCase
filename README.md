@@ -68,9 +68,14 @@ The easiest way to get started:
 Then select LockAPI project as startup and start the application using Kestrel or Docker.
 
 </br>
-Admin user:</br>
+Admin user:
+</br>
 Email: clay@admin.com
 Password: SuperAdmin@2022
+</br>
+Door 1 code: A1C2E3G4
+</br>
+Door 2 code: A2C3E4G5
 
 ## API Reference
 Postman collection:
