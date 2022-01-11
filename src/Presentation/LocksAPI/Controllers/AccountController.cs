@@ -59,6 +59,7 @@ namespace LocksAPI.Controllers
         public async Task<IActionResult> AccountDelete(string UserId)
         {
             await _userService.DeleteAccountAsync(UserId);
+            Response.StatusCode = StatusCodes.Status200OK;
             return Ok(Result.Success("Account id deleted"));
         }
 
