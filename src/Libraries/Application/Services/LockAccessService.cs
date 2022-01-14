@@ -83,15 +83,22 @@ namespace Application.Services
                 else
                     lastLockClaim.AccessUntil = _dateTimeService.Now.AddYears(1);
             }
+            else
+            {
+                lastLockClaim.ModifiedAt = _dateTimeService.Now;
+            }
             // notify admin with user access
-            var thisUser = await _userService.GetByIdAsync(_currentUserService.UserId);
-            _notificationService.GrantAccessNotify(thisUser, lastLockClaim.Id, needConfirm);
+            if (needConfirm)
+            {
+                var thisUser = await _userService.GetByIdAsync(_currentUserService.UserId);
+                _notificationService.GrantAccessNotify(thisUser, lastLockClaim.Id, needConfirm);
+            }
             await _accessHistoryRepo.InsertAsync(new LockAccessHistoryEntity
             {
                 AccessStatus = needConfirm ? LockAccessStatusEnum.AccessDenied : LockAccessStatusEnum.AccessGranted,
                 DoorLockId = thisLock.Id,
                 Reason = "Requrested lock access",
-                UserId = thisUser.Id,
+                UserId = _currentUserService.UserId,
             });
             // save to db
             await _userLockClaimRepo.SaveChangesAsync();
@@ -109,7 +116,7 @@ namespace Application.Services
         }
         public async Task GrantAccessOnLock(string claimId)
         {
-            if (_currentUserService.UserType is Domain.Enums.UserTypeEnum.Admin)
+            if (_currentUserService.UserType is not Domain.Enums.UserTypeEnum.Admin)
                 throw new UnauthorizedAccessException("This is only for admin");
             //validation
             if (string.IsNullOrEmpty(claimId))

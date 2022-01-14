@@ -132,7 +132,7 @@ namespace Application.Services
         }
         public async Task ActivateAccountAsync(string userId)
         {
-            if (_currentUserService.UserType is UserTypeEnum.Admin)
+            if (_currentUserService.UserType is not UserTypeEnum.Admin)
                 throw new UnauthorizedAccessException("This is only for admin");
 
             if (string.IsNullOrEmpty(userId))

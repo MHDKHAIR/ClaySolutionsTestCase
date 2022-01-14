@@ -10,10 +10,6 @@ namespace Infrastructure.Persistence.Configuration
 {
     public static class SeedData
     {
-        static string RandomAlphanumericString(int length)
-        {
-            return new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", length).Select(s => s[new Random().Next(s.Length)]).ToArray());
-        }
         public static async Task InitializeDataAsync(IServiceProvider service)
         {
             var context = service.GetService(typeof(ApplicationDbContext)) as ApplicationDbContext;
@@ -79,7 +75,7 @@ namespace Infrastructure.Persistence.Configuration
                         await context.DoorLocks.AddAsync(new DoorLockEntity
                         {
                             FloorId = floorId,
-                            DoorKeyCode = RandomAlphanumericString(8),
+                            DoorKeyCode = "A1C2E3G4",
                             DoorName = "Tunnel Door",
                             RecordStatus = RecordStatusEnum.Active,
                             Longitude = 52.35669211861516,
@@ -88,7 +84,7 @@ namespace Infrastructure.Persistence.Configuration
                         await context.DoorLocks.AddAsync(new DoorLockEntity
                         {
                             FloorId = floorId,
-                            DoorKeyCode = RandomAlphanumericString(8),
+                            DoorKeyCode = "A2C3E4G5",
                             DoorName = "Office Door",
                             RecordStatus = RecordStatusEnum.Active,
                             Longitude = 52.35669211861516,

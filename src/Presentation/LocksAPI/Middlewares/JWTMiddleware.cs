@@ -9,7 +9,7 @@ using Application.Common.Interfaces;
 using Application.Extentions;
 
 namespace LocksAPI.Middlewares
-{ 
+{
     public class JWTMiddleware
     {
         readonly RequestDelegate _next;
@@ -24,17 +24,13 @@ namespace LocksAPI.Middlewares
             ICurrentUserService currentUser)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-
-            if (token is not null)
+            var clientIp = context.GetIpAddress();
+            logger.LogInformation($"Request with token: {token}\nIP Address: {clientIp}");
+            if (context.Request.Path.HasValue && !context.Request.Path.Value.ToLower().Contains("/account/"))
             {
-                var clientIp = context.GetIpAddress();
-                logger.LogInformation($"Request with token: {token}\nIP Address: {clientIp}");
-
                 var jwt = jwtUtils.ValidateJwtToken(token);
                 var userId = jwt.Claims.FirstOrDefault(x => x.Type == "id")?.Value;
                 var userType = jwt.Claims.FirstOrDefault(x => x.Type == "usertype")?.Value;
-
-                // attach user to context on successful jwt validation
                 currentUser.UserId = userId;
                 currentUser.UserType = Enum.Parse<UserTypeEnum>(userType);
             }

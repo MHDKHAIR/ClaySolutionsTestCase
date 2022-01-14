@@ -27,10 +27,10 @@ namespace LocksAPI.Controllers
         }
 
         [HttpGet("list")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IResult))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IResult<DataList<UserLocksResponseDto>>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IResult))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(IResult))]
-        public async Task<IActionResult> LocksList(BaseSearchQuery<UserDoorLocksSearch, GeneralSortEnum> query)
+        public async Task<IActionResult> LocksList([FromQuery] BaseSearchQuery<UserDoorLocksSearch, GeneralSortEnum> query)
         {
             var result = await _userLockClaimService.UserDookLockListAsync(query);
             return Ok(Result<DataList<UserLocksResponseDto>>.Success(result));
@@ -38,17 +38,17 @@ namespace LocksAPI.Controllers
 
 
         [HttpGet("access_history")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IResult))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IResult<DataList<UserAccessHistortLocksResponseDto>>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IResult))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(IResult))]
-        public async Task<IActionResult> HistoryList(BaseSearchQuery<UserAccessLocksHistorySearch, GeneralSortEnum> query)
+        public async Task<IActionResult> HistoryList([FromQuery] BaseSearchQuery<UserAccessLocksHistorySearch, GeneralSortEnum> query)
         {
             var result = await _lockAccessHistoryService.UserDookLockHistoryListAsync(query);
             return Ok(Result<DataList<UserAccessHistortLocksResponseDto>>.Success(result));
         }
 
         [HttpPost("lock_access")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IResult))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IResult<AccessLockResponseDto>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(IResult))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(IResult))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(IResult))]
