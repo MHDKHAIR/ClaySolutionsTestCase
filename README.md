@@ -83,8 +83,7 @@ https://github.com/MHDKHAIR/ClaySolutionsTestCase/blob/master/Clay%20LocksAPI.po
 
 ## Demo
 
-Guest user flow:https://youtu.be/AyrqBvgugPY
-Employee user flow: https://youtu.be/tjcyTJlhDgo
+Google drive link to the video: https://drive.google.com/file/d/1Sf89f5wFo2OrxUx_SDB2y11QQDsEzP9E/view
 
 ## License
 
