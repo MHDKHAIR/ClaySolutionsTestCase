@@ -1,93 +1,91 @@
 
-# ClaySolutionsTestCase
+# Clay Solutions TestCase
 
-Locks access control sysem using .NET 5 API and MSSQLServer with clean architecture and service oriented design.
+This is a TestCase solution for creating ASP.NET Core following the principles of Clean Architecture.
+The domain for this solution is to allow mobile or web users clients to interact with an API interface which allows users to open doors and show historical events to extend
+our user experience beyond classical tags.
 
-## Tech Stack
+## Technologies
 
-**Client:** Any
-
-**Server:** .NET5, API
-
+* [ASP.NET Core 5](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-5.0)
+* [Entity Framework Core 5](https://docs.microsoft.com/en-us/ef/core/)
+* [JwtBearer](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.authentication.jwtbearer?view=aspnetcore-5.0)
+* [AutoMapper](https://automapper.org/)
+* [FluentValidation](https://fluentvalidation.net/)
+* [XUnit](https://nunit.org/), [Moq](https://github.com/moq)
+* [Docker](https://www.docker.com/)
 
 ## Documentation
 
 This project built with N-Layer clear architecture with { API - Application - Domain - Infrastructure} wtih DDD design and almost SOLID principles along with Repository pattern.
+
+### Database Diagram
+
+![DB](https://github.com/MHDKHAIR/ClaySolutionsTestCase/blob/master/Database%20Diagram.png)
+
 ### Architecture
+
 ![Arch](https://user-images.githubusercontent.com/58634897/146997101-03a8e076-aa02-486b-80b2-13a88dea2ffa.png)
 
-### Live from VS 2019
-![VS1](https://user-images.githubusercontent.com/58634897/146997124-4b125130-6c41-4117-8d48-a77c15977e5c.JPG)
+## Overview
 
-### Let's talk about the layers
-API:
-Contains all the controllers that allow the world to interact with the application and it's consuming Application and Infrastructure layer.
+### Domain
 
-Application:
-Contains all the services and middlewares as well as handlers that allow the API to apply needed project.
+This will contain all entities, enums, exceptions, interfaces, types and logic specific to the domain layer.
 
-Domain:
-Contains all the domain abstructions and interfaces as well as all entities that define the code first database.
+### Application
 
-Infrastructure:
-Contains all the services and data that interact with the outside sources like databases and email service or other api.
+This layer contains all application logic. It is dependent on the domain layer, but has no dependencies on any other layer or project. This layer defines interfaces that are implemented by outside layers. For example, if the application need to access a notification service, a new interface would be added to application and an implementation would be created within infrastructure.
 
-## Run Locally
+### Infrastructure
 
-Clone the project
+This layer contains classes for accessing external resources such as file systems, web services, smtp, and so on. These classes should be based on interfaces defined within the application layer.
 
-```bash
-  git clone https://github.com/MHDKHAIR/ClaySolutionsTestCase.git
-```
+## API
 
-Go to the project directory
+This layer is an API application based on ASP.NET Core 5. This layer depends on both the Application and Infrastructure layers, however, the dependency on Infrastructure is only to support dependency injection. Therefore only *Startup.cs* should reference Infrastructure.
 
-```bash
-  cd ClaySolutionsTestCase
-```
+## Getting Started
 
-Open in VS
+The easiest way to get started:
 
-```bash
-  start MySolution.sln and hit Enter
-```
-
-Modify appsettings.json inside API project and fill the empty fields
-
-```bash
-{
-  "UseInMemoryDatabase": false,
-  "ConnectionStrings": {
-  // for changing database connection
-    "DefaultConnection": "Data Source=.;Initial Catalog=ClayTestDB;Integrated Security=True"
-  },
-  // the secret key of the token
-  "JwtSecret": "273317D7-B2E1-4484-90AD-9CF7738237BE",
-  "JwtExpire": 1, // per hour
+1. Install the latest [.NET 5 SDK](https://dotnet.microsoft.com/download/dotnet/5.0)
+2. Install the latest [DOCKER](https://www.docker.com/get-started)
+3. Modify **Presentation/LookAPIs/appsettings.json** fill the empty fields
+```json
+  "UseInMemoryDatabase": true,
   "AdminEMail": "",
   "MailSettings": {
-    "Mail": "", // soarce email to send emails to admin and users
+    "Mail": "",
     "DisplayName": "no-replay@claytest.com",
     "Password": "",
     "Host": "smtp.gmail.com",
     "Port": 587
   },
-}
+  "HostDomain": "https://localhost:5022/",
 ```
 
-Then select LockAPI project as startup and start the application userin Kestrel.
+Then select LockAPI project as startup and start the application using Kestrel or Docker.
 
-It will start on this link: http://localhost:5022/
 </br>
-Admin user:</br>
+Admin user:
+</br>
 Email: clay@admin.com
 Password: SuperAdmin@2022
+</br>
+Door 1 code: A1C2E3G4
+</br>
+Door 2 code: A2C3E4G5
 
 ## API Reference
 Postman collection:
 https://github.com/MHDKHAIR/ClaySolutionsTestCase/blob/master/Clay%20LocksAPI.postman_collection.json
 
 ## Demo
+
 Guest user flow:https://youtu.be/AyrqBvgugPY
 Employee user flow: https://youtu.be/tjcyTJlhDgo
 
+## License
+
+No License Needed :)
